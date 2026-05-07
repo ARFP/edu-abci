@@ -28,7 +28,7 @@ Avant d'écrire la moindre ligne de code, un développeur doit comprendre le **p
 
 ### 2. Les cas d'erreurs (introduction aux conditions)
 
-**Objectif :** Identifier les principaux cas d'erreurs.
+**Objectif :** Identifier les **principaux** cas d'erreurs.
 
 **Consigne :** Un programmeur doit tout prévoir. Listez 3 situations où le scénario ci-dessus pourrait "échouer" :
 
@@ -43,7 +43,7 @@ Avant d'écrire la moindre ligne de code, un développeur doit comprendre le **p
 
 **Objectif :** Identifier **tous** les cas d'erreurs.
 
-**Consigne :** Vous avez identifié 3 cas d'erreurs (exercice 2). Utilisez l'IA pour lui demander quels autres situations pourraient faire planter le scénario de l'exercice 1.
+**Consigne :** Vous avez identifié 3 cas d'erreurs dans l'exercice précédent. Utilisez l'IA pour lui demander quelles autres situations pourraient faire *planter* le scénario de l'exercice 1.
 
 Pour chaque situation remontée par l'IA :
 
@@ -65,11 +65,11 @@ Pour chaque situation remontée par l'IA :
 
 **Objectif :** Apprendre à décomposer une action fluide en étapes atomiques et logiques.
 
-**Contexte :** L'utilisateur s'approche du distributeur. Il a soif, il a de la monnaie, et la machine est bien remplie. Votre mission est de décrire le déroulement idéal de l'achat d'un **Café long à 1,20 €**.
+**Contexte :** L'utilisateur s'approche du distributeur. Il a soif, il a de la monnaie, et la machine est bien remplie. Votre mission est de décrire le déroulement idéal de l'achat d'un **café long à 1,20 €**.
 
 **Consigne :** Complétez les étapes du scénario en adoptant le point de vue du **système**. Chaque étape doit décrire une action de l'utilisateur ou une réaction de la machine. Vous pouvez également ajouter les étapes supplémentaires que vous estimez pertinentes.
 
-> **Contrainte :** Ne listez aucune erreur (pas de manque de monnaie, pas de rupture de stock). Concentrez-vous sur le chemin "parfait".
+> **Contrainte :** Ne listez aucune erreur. Concentrez-vous sur le chemin "parfait".
 
 **Nom du scénario :** Achat réussi d'une boisson chaude.  
 **Acteur principal :** Client.  
@@ -89,7 +89,7 @@ Pour chaque situation remontée par l'IA :
 
 <div style="page-break-after:always;"></div>
 
-### 5. Les scénarios alternatifs (la perfection n'existe pas)
+### 5. Les scénarios d'exception (la perfection n'existe pas)
 
 Une fois que vous avez compris le chemin "parfait", vous devez apprendre à devenir un **débugueur** en anticipant tout ce qui peut dérailler. C'est ici que naissent les futurs `if/else` et les `try/catch`.
 
@@ -100,7 +100,7 @@ Une fois que vous avez compris le chemin "parfait", vous devez apprendre à deve
 
 #### Cas A : La Rupture de Stock
 
-* **Événement :** L'utilisateur appuie sur "Chocolat Chaud", mais le réservoir correspondant est vide.
+* **Événement :** L'utilisateur appuie sur "Café long", mais le réservoir correspondant est vide.
 * **Réponse du Système :** _______________________________________________________
 * **Action finale :** (Ex: Est-ce qu'on rend la monnaie ? Est-ce qu'on propose autre chose ?)
 
@@ -114,7 +114,13 @@ Une fois que vous avez compris le chemin "parfait", vous devez apprendre à deve
 * **Réponse du Système :** _______________________________________________________
 * **Action finale :** (Point crucial : Doit-on encaisser l'argent ou créditer à nouveau l'utilisateur ?)
 
----
+### 6. Les scénarios alternatifs 
+
+Considérons le cas où l'utilisateur souhaite imprimer un reçu après avoir récupéré sa boison.
+
+- A quelle étape le système lui proposerait de faire ce choix ?
+
+<div style="page-break-after:always;"></div>
 
 > #### Informations :
 >
@@ -122,7 +128,7 @@ Une fois que vous avez compris le chemin "parfait", vous devez apprendre à deve
 > 2.  **L'Information Utilisateur :** Un système qui ne dit rien est un système qui semble en panne. Il faut toujours un `Afficher un "Message d'erreur"` en cas de problème.
 > 3.  **L'Intégrité des données :** Si le service n'est pas rendu, la transaction doit être annulée (Rollback).
 
-<div style="page-break-after:always;"></div>
+
 
 ### 6. Synthèse Logique (Le "Si... Alors...")
 
