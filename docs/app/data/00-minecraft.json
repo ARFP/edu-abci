@@ -1,0 +1,50 @@
+{
+  "config": {
+    "categories": [
+      {
+        "nom": "Joueurs",
+        "items": ["Steve", "Alex", "Noob"]
+      },
+      {
+        "nom": "Ressources",
+        "items": ["Diamant", "Fer", "Bois"]
+      }
+    ]
+  },
+  "enonce": {
+    "indices": [
+      "Celui qui mine du Diamant utilise une pioche en obsidienne (ce n'est pas Noob).",
+      "Steve est dans une forêt, il ne mine aucun minerai.",
+      "Alex a déjà assez de Fer dans son inventaire, elle ne cherche donc pas ce matériau."
+    ]
+  },
+  "solution": {
+    "grille": [
+      { "ligne": "Steve", "colonne": "Bois", "valeur": true },
+      { "ligne": "Alex", "colonne": "Diamant", "valeur": true },
+      { "ligne": "Noob", "colonne": "Fer", "valeur": true }
+    ],
+    "bilan": {
+      "Steve": "Bois",
+      "Alex": "Diamant",
+      "Noob": "Fer"
+    }
+  },
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Localisation de Steve",
+      "explication": "L'indice 2 indique que Steve est dans une forêt et ne mine pas de minerai. On en déduit qu'il récolte du Bois."
+    },
+    {
+      "etape": 2,
+      "titre": "Élimination pour Alex",
+      "explication": "L'indice 3 précise qu'Alex ne cherche pas de Fer. Puisque Steve a déjà le Bois, Alex cherche forcément le Diamant."
+    },
+    {
+      "etape": 3,
+      "titre": "Déduction finale",
+      "explication": "Par élimination, Noob récolte le Fer. Cela concorde avec l'indice 1 : il n'est pas celui qui mine le Diamant."
+    }
+  ]
+}

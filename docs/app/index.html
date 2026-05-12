@@ -16,26 +16,46 @@
                 <p>Raisonnement déductif : Logigrammes</p>
             </div>
         </header>
+        <nav class="menu-types">
+            <ul>
+                <li v-for="type in types" :key="type">
+                    <a href="#" :data-cat="type" @click="filterCategories">{{ type }}</a>
+                </li>
+            </ul>
+        </nav>
         <main>
-            <section>
-                <article v-for="exo in exos" :key="exo.slug" class="exo-card">
-                    <div class="exo-meta">
-                        <p class="level"><a :href="'../logigrammes/' + exo.slug + '.html'">📁</a> {{ exo.categorie }}</p>
-                        <p class="level">🕒 ~{{ exo.temps_estime }}</p>
-                        <p :data-level="exo.difficulte" class="level stars" :title="levels[exo.difficulte - 1]">🧠 {{ displayLevel(exo.difficulte) }}</p>
-                        
-                    </div>
-                    <div>
-                        <h2><a href="#" :data-exo="exo.slug" >{{ exo.titre }}</a></h2>
-                        <p>{{ exo.resume }}</p>
-                    </div>
-                </article>
+            <section v-if="current === null">
+                <div v-for="exercice in exos" :key="exercice.slug">
+                    <exo-card :exo="exercice" @exo-select="exoSelect"></exo-card>
+                </div>
+            </section>
+            <section v-else>
+                <div class="exo-top">
+                    <a class="btn" href="#" @click="current = null">← Retour à la liste</a>
+                    <div class="timer">⏱ Temps écoulé : <strong>{{ formattedTime }}</strong></div>
+                </div>
+                <exo-card :exo="current" @exo-select="exoSelect" :selected="true"></exo-card>
             </section>
         </main>
         <footer>
             <p>&copy; <a href="https://github.com/mdevoldere">Mickaël DEVOLDÈRE</a> pour <a href="https://crm68.fr">Centre de Réadaptation de Mulhouse.</a> Tous droits réservés.</p>
         </footer>
+
     </div>
-    
+
+        <template id="exo-card">
+            <article class="exo-card" v-if="exo !== null">
+                <div class="exo-meta">
+                    <p class="level"><a :href="'../logigrammes/' + exo.slug + '.html'">📁</a> {{ exo.categorie }}</p>
+                    <p class="level">🕒 ~{{ exo.temps_estime }}</p>
+                    <p :data-level="exo.difficulte" class="level stars" :title="levels[exo.difficulte - 1]">🧠 {{ displayLevel(exo.difficulte) }}</p>
+                </div>
+                <div>
+                    <h2 v-if="selected">{{ exo.titre }}</h2>
+                    <h2 v-else><a href="#" :data-slug="exo.slug" @click="exoSelect">{{ exo.titre }}</a></h2>
+                    <p>{{ exo.resume }}</p>
+                </div>
+            </article>
+        </template>    
 </body>
 </html>

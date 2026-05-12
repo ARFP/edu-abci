@@ -1,3 +1,10 @@
+export const exosTypes =
+[
+  "Logigramme",
+  "Scénarios",
+  "Organigramme"
+];
+
 export const exosLevels =
 [
   "Simple",

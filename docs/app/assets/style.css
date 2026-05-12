@@ -55,7 +55,7 @@ a:hover {
     text-decoration: wavy underline;
 }
 
-header, main, footer {
+header, nav, main, footer {
     width: 1200px;
     max-width: 100%;
     margin: 0 auto;
@@ -94,6 +94,17 @@ footer {
     }
 }
 
+.menu-types ul {
+    list-style: none;
+    padding: 0;
+    display:flex;
+}
+
+.menu-types a {
+    display: block;
+    padding: .5rem 1rem;
+}
+
 .btn {
     display: inline-block;
     padding: .5rem 1rem;
@@ -123,6 +134,10 @@ footer {
     text-decoration: none;
 }
 
+.exo-top {
+    display: flex;
+    justify-content: space-between;
+}
 
 .exo-card {
     box-shadow: 0 0 2px var(--crm-primary);
