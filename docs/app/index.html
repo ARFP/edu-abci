@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logigrammes</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="module" src="assets/main.js" defer></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <img src="assets/crm-logo.png" alt="Logo du CRM68">
+            <div>
+                <p>Logique & Algorithmes</p>
+                <p>Raisonnement déductif : Logigrammes</p>
+            </div>
+        </header>
+        <main>
+            <section>
+                <article v-for="exo in exos" :key="exo.slug" class="exo-card">
+                    <div class="exo-meta">
+                        <p class="level"><a :href="'../logigrammes/' + exo.slug + '.html'">📁</a> {{ exo.categorie }}</p>
+                        <p class="level">🕒 ~{{ exo.temps_estime }}</p>
+                        <p :data-level="exo.difficulte" class="level stars" :title="levels[exo.difficulte - 1]">🧠 {{ displayLevel(exo.difficulte) }}</p>
+                        
+                    </div>
+                    <div>
+                        <h2><a href="#" :data-exo="exo.slug" >{{ exo.titre }}</a></h2>
+                        <p>{{ exo.resume }}</p>
+                    </div>
+                </article>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; <a href="https://github.com/mdevoldere">Mickaël DEVOLDÈRE</a> pour <a href="https://crm68.fr">Centre de Réadaptation de Mulhouse.</a> Tous droits réservés.</p>
+        </footer>
+    </div>
+    
+</body>
+</html>
