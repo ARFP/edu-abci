@@ -30,7 +30,41 @@ export const ExoCard = {
   }
 }
 
+export const ExoHelper = {
+    template: "#exo-helper",
+    props: {
+        exo: Object,
+        choixUtilisateur: Object
+    },
+    // Props : correction (Array), choixUtilisateur (Object)
+    data() {
+        return {
+            etapeAideActuelle: 0,
+            indicesAidesAffiches: []
+        }
+    },
+    methods: {
+        fournirAide() {
+            if (this.etapeAideActuelle < this.exo.correction.length) {
+              const etape = this.exo.correction[this.etapeAideActuelle];
+              this.indicesAidesAffiches.push(etape);
+
+              // On émet l'étape actuelle pour que le parent sache quelle "vérité" révéler
+              this.$emit('debloquer-case', this.etapeAideActuelle);
+
+              this.etapeAideActuelle++;
+          }
+        },
+        appliquerAideTechnique(indexEtape) {
+            // Logique pour extraire une paire et l'injecter dans choixUtilisateur
+            // Par exemple, si l'étape parle de "Cisco" et "Pos 1" :
+           // this.$emit('force-choice', { key: 'Cisco-Pos 1', value: 'O' });
+        }
+    }
+};
+
 export const ExoGame = {
+    components: { ExoHelper },
     template: "#exo-game",
     props: {
         exo: {
@@ -180,54 +214,6 @@ export const ExoGame = {
             // 4. (Optionnel) On peut aussi déduire les "X" automatiquement ici 
             // mais rester sur les "O" suffit pour la validation.
         },
-        /*validerExo() {
-            let liaisonsCompletes = 0;
-            const totalAttendu = this.exo.solution.length;
-
-            this.exo.solution.forEach(sol => {
-                const items = sol.liaison; // ex: ["Sam", "SVN", "08h00"]
-                let toutesLesPairesOk = true;
-
-                // On vérifie chaque paire possible dans le triplet (ou quadruplet)
-                // Pour [A, B, C], on vérifie A-B, A-C et B-C
-                for (let i = 0; i < items.length; i++) {
-                    for (let j = i + 1; j < items.length; j++) {
-                        const key = `${items[i]}-${items[j]}`;
-                        const keyInverse = `${items[j]}-${items[i]}`;
-
-                        // Si aucune des deux combinaisons n'est cochée 'O'
-                        if (this.choixUtilisateur[key] !== 'O' && this.choixUtilisateur[keyInverse] !== 'O') {
-                            toutesLesPairesOk = false;
-                        }
-                    }
-                }
-
-                if (toutesLesPairesOk) {
-                    liaisonsCompletes++;
-                }
-            });
-
-            this.score = liaisonsCompletes;
-            this.dejaValide = this.score === totalAttendu; // Si tout est correct, on bloque la grille
-
-            if (this.score === totalAttendu) {
-                alert("Félicitations ! Tous les éléments sont correctement associés. 🎉");
-            } else {
-                alert(`Attention, il te manque des associations. Tu as ${this.score} association(s) complète(s) sur ${totalAttendu}.`);
-            }
-        },*/
-        /*validerExo() {
-            // Logique de validation comparant choixUtilisateur et exo.solution
-            let score = 0;
-            this.exo.solution.forEach(sol => {
-                const key = `${sol.liaison[0]}-${sol.liaison[1]}`;
-                if (this.choixUtilisateur[key] === 'O' && sol.valeur === true) {
-                    score++;
-                }
-            });
-            alert(`Résultat : ${score} / ${this.exo.solution.length}`);
-            this.dejaValide = (score === this.exo.solution.length); // Si tout est correct, on bloque la grille
-        }*/
         validerExo() {
           let liaisonsCompletes = 0;
           const totalAttendu = this.exo.solution.length;
@@ -262,43 +248,25 @@ export const ExoGame = {
             } else {
                 alert(`Attention, il te manque des associations. Tu as ${this.score} association(s) complète(s) sur ${totalAttendu}.`);
             }
-      }
-    }
-};
-
-
-export const ExoHelper = {
-    template: "#exo-helper",
-    props: {
-        exo: Object,
-        choixUtilisateur: Object
-    },
-    // Props : correction (Array), choixUtilisateur (Object)
-    data() {
-        return {
-            etapeAideActuelle: 0,
-            indicesAidesAffiches: []
-        }
-    },
-    methods: {
-        fournirAide() {
-            if (this.etapeAideActuelle < this.exo.correction.length) {
-                const etape = this.exo.correction[this.etapeAideActuelle];
-                
-                // 1. On ajoute l'explication à la liste affichée
-                this.indicesAidesAffiches.push(etape);
-                
-                // 2. On "force" le remplissage d'un élément clé en lien avec l'étape
-                // On peut chercher dans la solution un élément mentionné dans l'étape
-                this.appliquerAideTechnique(etape);
-                
-                this.etapeAideActuelle++;
-            }
         },
-        appliquerAideTechnique(etape) {
-            // Logique pour extraire une paire et l'injecter dans choixUtilisateur
-            // Par exemple, si l'étape parle de "Cisco" et "Pos 1" :
-           // this.$emit('force-choice', { key: 'Cisco-Pos 1', value: 'O' });
+        appliquerIndiceTechnique(indexEtape) {
+            // Stratégie simple : on révèle un élément de la solution 
+            // correspondant à l'index de l'aide demandée.
+            const solutionGénérale = this.exo.solution[indexEtape]; 
+            
+            if (solutionGénérale) {
+                const pivot = solutionGénérale.liaison[0]; // ex: "Pos 1"
+                const itemARevéler = solutionGénérale.liaison[1]; // ex: "Cisco"
+
+                // On injecte le "O" dans les choix de l'utilisateur
+                this.choixUtilisateur = {
+                    ...this.choixUtilisateur,
+                    [`${pivot}-${itemARevéler}`]: 'O'
+                };
+            }
         }
     }
 };
+
+
+

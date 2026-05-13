@@ -86,10 +86,7 @@
                 <hr />
 
                 <!-- LE COMPOSANT D'AIDE -->
-                <ExoHelp 
-                :correction="exo.correction" 
-                @demander-indice="appliquerIndiceTechnique"
-                />
+                <exo-helper :exo="exo" @debloquer-case="appliquerIndiceTechnique"></exo-helper>    
 
                 <hr />
 
@@ -173,12 +170,12 @@
                 </button>
 
                 <div class="mt-3">
-                    <transition-group name="fade">
-                        <div v-for="aide in indicesAidesAffiches" :key="aide.etape" class="alert alert-info">
-                            <strong>Conseil #{{ aide.etape }} : {{ aide.titre }}</strong><br>
+                    <ol>
+                        <li v-for="aide in indicesAidesAffiches" :key="aide.etape" class="alert alert-info">
+                            <strong>Conseil #{{ aide.etape }} : {{ aide.titre }}</strong> 
                             {{ aide.explication }}
-                        </div>
-                    </transition-group>
+                        </li>
+                    </ol>
                 </div>
             </section>
         </template>
