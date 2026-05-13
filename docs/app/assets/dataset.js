@@ -1,7 +1,7 @@
 export const exosTypes =
 [
   "Logigramme",
-  "Scénarios",
+  "Scénario",
   "Organigramme"
 ];
 
@@ -42,7 +42,7 @@ export const exosCollection = [
   {
     titre: "03 - Déploiement du matin",
     resume: "Associer chaque développeur à son outil de versioning et à l'heure de son dernier déploiement.",
-    slug: "03-deployment-du-matin",
+    slug: "03-deploiement-du-matin",
     categorie: "Logigramme",
     difficulte: 2,
     temps_estime: "5 min",

@@ -120,6 +120,7 @@ footer {
     background: var(--crm-secondary);
     color: var(--body-cl);
     text-decoration: none;
+    cursor: pointer;
 }
 
 .btn.alt {
@@ -199,3 +200,95 @@ footer {
 .level[data-level="3"] { color: #f1c40f; }  /* jaune */
 .level[data-level="4"] { color: #e67e22; }
 .level[data-level="5"] { color: #e74c3c; }  /* rouge */
+
+
+/* Grilles de jeu */
+
+.grid-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 2rem;
+}
+
+.grid-section {
+    flex: 1 1 300px;
+}
+.logic-exercise {
+    margin: 2rem 0;
+}
+
+.logic-grid {
+    border-collapse: collapse;
+    margin: 1rem;
+}
+
+.logic-grid th,
+.logic-grid td {
+    padding: .5rem;
+    border: 1px solid var(--crm-primary);
+}
+
+.logic-grid th {
+    background: var(--crm-secondary);
+    color: var(--body-cl);
+}
+
+.logic-grid td {
+    background: var(--body-bg);
+    color: var(--body-cl);
+    text-align: center;
+    cursor: pointer;
+}
+
+.logic-grid td.cell-ok {
+    background: #2ecc71;
+    color: white;
+}
+
+.logic-grid td.cell-ko {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Tableau lineaire */
+/* Style des Selects */
+.form-select {
+    font-size: 2rem;
+    background-color: #ffffff;
+    color: var(--crm-primary);
+    border: 1px solid var(--crm-ofp);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    width: 100%;
+}
+
+/* Changement de couleur quand une option est choisie */
+.form-select:not([value=""]) {
+    border-color: var(--crm-mecenat);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.form-select:focus {
+    border-color: #00ff9d;
+    box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
+    background-color: #333;
+}
+
+/* Style des options (limité par le navigateur mais aide sur certains) */
+.form-select option {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Hover sur la ligne */
+tr:hover td {
+    background-color: rgba(0,0,0, 0.1);
+}
+
+.is-selected {
+    background-color: var(--crm-primary) !important; /* Bleu foncé */
+    border-color: var(--crm-secondary) !important;
+    color: var(--crm-secondary) !important;
+    font-weight: bold;
+}

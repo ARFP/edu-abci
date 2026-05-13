@@ -1,34 +1,28 @@
 {
-  "config": {
-    "categories": [
-      {
-        "nom": "Joueurs",
-        "items": ["Steve", "Alex", "Noob"]
-      },
-      {
-        "nom": "Ressources",
-        "items": ["Diamant", "Fer", "Bois"]
-      }
-    ]
-  },
-  "enonce": {
-    "indices": [
-      "Celui qui mine du Diamant utilise une pioche en obsidienne (ce n'est pas Noob).",
-      "Steve est dans une forêt, il ne mine aucun minerai.",
-      "Alex a déjà assez de Fer dans son inventaire, elle ne cherche donc pas ce matériau."
-    ]
-  },
-  "solution": {
-    "grille": [
-      { "ligne": "Steve", "colonne": "Bois", "valeur": true },
-      { "ligne": "Alex", "colonne": "Diamant", "valeur": true },
-      { "ligne": "Noob", "colonne": "Fer", "valeur": true }
-    ],
-    "bilan": {
-      "Steve": "Bois",
-      "Alex": "Diamant",
-      "Noob": "Fer"
+  "categories": [
+    {
+      "nom": "Joueurs",
+      "items": ["Steve", "Alex", "Noob"]
+    },
+    {
+      "nom": "Ressources",
+      "items": ["Diamant", "Fer", "Bois"]
     }
+  ],
+  "indices": [
+    "Celui qui mine du Diamant utilise une pioche en obsidienne (ce n'est pas Noob).",
+    "Steve est dans une forêt, il ne mine aucun minerai.",
+    "Alex a déjà assez de Fer dans son inventaire, elle ne cherche donc pas ce matériau."
+  ],
+  "solution": [
+    { "liaison": ["Steve", "Bois"], "valeur": true },
+    { "liaison": ["Alex", "Diamant"], "valeur": true },
+    { "liaison": ["Noob", "Fer"], "valeur": true }
+  ],
+  "bilan": {
+    "Steve": ["Bois"],
+    "Alex": ["Diamant"],
+    "Noob": ["Fer"]
   },
   "correction": [
     {
