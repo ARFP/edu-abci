@@ -1,0 +1,60 @@
+{
+  "categories": [
+    { "nom": "Positions", "items": ["Pos 1", "Pos 2", "Pos 3", "Pos 4", "Pos 5"] },
+    { "nom": "Marques", "items": ["Dell", "HP", "IBM", "Cisco", "Lenovo"] },
+    { "nom": "LED", "items": ["Rouge", "Verte", "Bleue", "Jaune", "Blanche"] },
+    { "nom": "OS", "items": ["Ubuntu", "Debian", "CentOS", "Windows", "FreeBSD"] },
+    { "nom": "Applications", "items": ["Docker", "SQL", "Nginx", "Redis", "Minecraft"] },
+    { "nom": "Consommation", "items": ["200W", "300W", "400W", "500W", "600W"] }
+  ],
+  "solution": [
+    [0, 3, 2, 2, 2, 2],
+    [1, 2, 3, 1, 1, 1],
+    [2, 0, 0, 0, 4, 0],
+    [3, 1, 1, 4, 0, 3],
+    [4, 4, 4, 3, 3, 4]
+  ],
+  "indices": [
+    "Le serveur Dell possède la LED Rouge.",
+    "Le serveur HP fait tourner Docker.",
+    "Le serveur IBM utilise Debian.",
+    "Le serveur à LED Verte est situé immédiatement à gauche de celui à LED Blanche.",
+    "Le serveur à LED Verte consomme 500W.",
+    "Le serveur qui fait tourner Nginx possède une LED Bleue.",
+    "Le serveur du milieu (n°3) utilise Ubuntu.",
+    "Le serveur Cisco est le premier de la baie (n°1).",
+    "Le serveur qui fait tourner SQL est à côté de celui qui consomme 200W.",
+    "Le serveur qui consomme 300W est à côté de celui qui fait tourner Minecraft.",
+    "Le serveur qui consomme 600W utilise FreeBSD.",
+    "Le serveur Lenovo utilise Windows.",
+    "Le serveur Cisco est à côté du serveur à LED Jaune.",
+    "Le serveur qui fait tourner SQL a un voisin qui utilise CentOS."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Les ancres fixes",
+      "explication": "On place immédiatement le Cisco en Pos 1 (Indice 8) et Ubuntu en Pos 3 (Indice 7)."
+    },
+    {
+      "etape": 2,
+      "titre": "Le voisinage de Cisco",
+      "explication": "Le Cisco (Pos 1) est à côté de la LED Jaune (Indice 13), donc la LED Jaune est en Pos 2."
+    },
+    {
+      "etape": 3,
+      "titre": "Le bloc Vert-Blanc",
+      "explication": "La LED Verte est à gauche de la Blanche (Indice 4) et consomme 500W (Indice 5). La seule place possible pour ce bloc est Pos 4 (Verte) et Pos 5 (Blanche), car la Pos 2 a déjà la LED Jaune et la Pos 3 a déjà une marque (Dell/Rouge) qui va s'y glisser."
+    },
+    {
+      "etape": 4,
+      "titre": "Positionnement du Dell",
+      "explication": "Le Dell a la LED Rouge (Indice 1). La seule position avec une LED libre et sans marque est la Pos 3. Donc Pos 3 = Dell / Rouge / Ubuntu."
+    },
+    {
+      "etape": 5,
+      "titre": "Déductions par élimination",
+      "explication": "IBM utilise Debian (Indice 3). La seule place pour IBM est la Pos 2. Par extension, le dernier OS FreeBSD (600W) se place en Pos 4 ou 5. L'indice 11 lie FreeBSD à 600W, ce qui finit par stabiliser tout le rack."
+    }
+  ]
+}
