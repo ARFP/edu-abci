@@ -12,24 +12,18 @@ createApp(
             exos: exosCollection,
             currentType: null,
             current: null,
-            // Timer
-            elapsed: 0,      // temps écoulé en secondes
-            timerId: null    // id du setInterval
-
         }
     },
     mounted() {
         this.currentType = this.types[0];
     },
     computed: {
+        // Le temps est maintenant géré par le GameEngine de l'exercice courant
         formattedTime() {
-            const minutes = Math.floor(this.elapsed / 60);
-            const seconds = this.elapsed % 60;
-            return `${minutes.toString().padStart(2, "0")}:${seconds
-            .toString()
-            .padStart(2, "0")}`;
+            return this.current && this.current.data && this.current.data.engine
+                ? this.current.data.engine.formattedTime
+                : '00:00';
         }
-
     },
     methods: {
         filterCategories(e) {
@@ -46,22 +40,7 @@ createApp(
         async exoSelect(exo) {
             await this.exoLoad(exo);
             this.current = exo;
-            this.startTimer();
-        },
-        startTimer() {
-            this.stopTimer(); 
-            this.elapsed = 0;
-            this.timerId = setInterval(() => {
-            this.elapsed++;
-            }, 1000);
-        },
-        stopTimer() {
-            if (this.timerId !== null) {
-                clearInterval(this.timerId);
-                this.timerId = null;
-            }
         }
-
     }
 }
 ).mount('#app')

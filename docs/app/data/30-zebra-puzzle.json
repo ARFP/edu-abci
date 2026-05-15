@@ -7,6 +7,13 @@
     { "nom": "Applications", "items": ["Docker", "SQL", "Nginx", "Redis", "Minecraft"] },
     { "nom": "Consommation", "items": ["200W", "300W", "400W", "500W", "600W"] }
   ],
+  "solution": [
+    [0, 3, 2, 2, 2, 2],
+    [1, 2, 3, 1, 1, 1],
+    [2, 0, 0, 0, 4, 0],
+    [3, 1, 1, 4, 0, 3],
+    [4, 4, 4, 3, 3, 4]
+  ],
   "indices": [
     "Le serveur Dell possède la LED Rouge.",
     "Le serveur HP fait tourner Docker.",
@@ -23,20 +30,6 @@
     "Le serveur Cisco est à côté du serveur à LED Jaune.",
     "Le serveur qui fait tourner SQL a un voisin qui utilise CentOS."
   ],
-  "solution": [
-    { "liaison": ["Pos 1", "Cisco", "Bleue", "CentOS", "Nginx", "400W"], "valeur": true },
-    { "liaison": ["Pos 2", "IBM", "Jaune", "Debian", "SQL", "300W"], "valeur": true },
-    { "liaison": ["Pos 3", "Dell", "Rouge", "Ubuntu", "Minecraft", "200W"], "valeur": true },
-    { "liaison": ["Pos 4", "HP", "Verte", "FreeBSD", "Docker", "500W"], "valeur": true },
-    { "liaison": ["Pos 5", "Lenovo", "Blanche", "Windows", "Redis", "600W"], "valeur": true }
-  ],
-  "bilan": {
-    "Pos 1": ["Cisco", "Bleue", "CentOS", "Nginx", "400W"],
-    "Pos 2": ["IBM", "Jaune", "Debian", "SQL", "300W"],
-    "Pos 3": ["Dell", "Rouge", "Ubuntu", "Minecraft", "200W"],
-    "Pos 4": ["HP", "Verte", "FreeBSD", "Docker", "500W"],
-    "Pos 5": ["Lenovo", "Blanche", "Windows", "Redis", "600W"]
-  },
   "correction": [
     {
       "etape": 1,

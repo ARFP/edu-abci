@@ -9,8 +9,8 @@ export class ConfigurationManager {
      * @throws {Error} Si une incohérence majeure est détectée.
      */
     static validate(data) {
-        if (!data.categories || !data.solution) {
-            throw new Error("Format JSON invalide : 'categories' et 'solution' sont obligatoires.");
+        if (!data.categories || !data.solution || !data.indices) {
+            throw new Error("Format JSON invalide : 'categories', 'solution' et 'indices' sont obligatoires.");
         }
 
         const nbCategories = data.categories.length;
@@ -28,6 +28,14 @@ export class ConfigurationManager {
             if (ligne.length !== nbCategories) {
                 throw new Error(`Solution ligne ${idx} : attendu ${nbCategories} colonnes, reçu ${ligne.length}.`);
             }
+            // Vérifier que les indices pointent vers des items existants
+            ligne.forEach((itemIdx, catIdx) => {
+                const maxIdx = data.categories[catIdx].items.length - 1;
+                if (itemIdx < 0 || itemIdx > maxIdx) {
+                    throw new Error(`Solution ligne ${idx}, colonne ${catIdx} : l'index ${itemIdx} est hors limite ` +
+                                    `(max: ${maxIdx} pour ${data.categories[catIdx].nom}).`);
+                }
+            });
         });
 
         console.log("✅ Configuration validée avec succès.");

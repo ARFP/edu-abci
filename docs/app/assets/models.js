@@ -1,9 +1,10 @@
-import { HistoryManager, GameValidator } from "./tools";
+import { HistoryManager, GameValidator } from "./tools.js";
 /**
  * Classe Logigramme V2
  * Gère la logique bidirectionnelle entre Grille et Vue Linéaire.
  */
-export class Logigramme {
+export class Logigramme 
+{
     constructor(data) {
         this.categories = data.categories || [];
         this.solution = data.solution || [];
@@ -38,29 +39,35 @@ export class Logigramme {
      * Garantit l'exclusivité : un item par position, une position par item de catégorie.
      */
     nettoyerConflits(nouvelleKey) {
-        const [nomA, nomB] = nouvelleKey.split('-');
-        const catIdxB = this.getCategorieDeItem(nomB);
+        const [nomA, nomB] = nouvelleKey.split('-'); // Ex: "Pos 1-Dell"
+        const catIdxA = this.getCategorieDeItem(nomA); // Catégorie du premier élément (ex: 0 pour "Positions")
+        const catIdxB = this.getCategorieDeItem(nomB); // Catégorie du second élément (ex: 1 pour "Marques")
 
+        const keysToDelete = [];
+
+        // Parcourir les choix existants pour identifier les conflits
         for (let [existKey, value] of this.choix) {
+            // On ne considère que les liaisons 'true' existantes et différentes de la nouvelle
             if (value === true && existKey !== nouvelleKey) {
                 const [exNomA, exNomB] = existKey.split('-');
+                const exCatIdxA = this.getCategorieDeItem(exNomA);
+                const exCatIdxB = this.getCategorieDeItem(exNomB);
 
-                // Conflit 1 : L'item est déjà ailleurs
-                if (nomB === exNomB && nomA !== exNomA) {
-                    this.choix.delete(existKey);
+                // Conflit Type 1: nomA est déjà lié à un autre item de la même catégorie que nomB
+                // Ex: Si "Pos 1-HP" existe, et on veut ajouter "Pos 1-Dell". HP et Dell sont de la même catégorie.
+                if (nomA === exNomA && catIdxB === exCatIdxB && nomB !== exNomB) {
+                    keysToDelete.push(existKey);
                 }
-
-                // Conflit 2 : La position a déjà un autre item de cette catégorie
-                if (nomA === exNomA) {
-                    const exCatIdxB = this.getCategorieDeItem(exNomB);
-                    if (catIdxB === exCatIdxB && nomB !== exNomB) {
-                        this.choix.delete(existKey);
-                    }
+                // Conflit Type 2: nomB est déjà lié à un autre item de la même catégorie que nomA
+                // Ex: Si "Pos 2-Dell" existe, et on veut ajouter "Pos 1-Dell". Pos 1 et Pos 2 sont de la même catégorie.
+                else if (nomB === exNomB && catIdxA === exCatIdxA && nomA !== exNomA) {
+                    keysToDelete.push(existKey);
                 }
             }
         }
+        // Supprimer toutes les clés identifiées après l'itération
+        keysToDelete.forEach(key => this.choix.delete(key));
     }
-
     /**
      * Extrait le rack final pour la vue linéaire et les stats
      */
@@ -111,10 +118,13 @@ export class Logigramme {
     }
 
     getCategorieDeItem(nomItem) {
-        for (let i = 1; i < this.categories.length; i++) {
+        // Chercher dans toutes les catégories, y compris la première (souvent les "Positions")
+        for (let i = 0; i < this.categories.length; i++) {
             if (this.categories[i].items.includes(nomItem)) return i;
         }
-        return 0;
+        // Si l'item n'est trouvé dans aucune catégorie, cela indique une erreur de données.
+        // Retourner -1 ou lancer une erreur serait plus approprié pour le débogage.
+        return -1; 
     }
 
     /**
@@ -190,14 +200,12 @@ export class GameEngine {
         if (this.status === 'playing') return;
 
         this.status = 'playing';
-        this.startTime = Date.now();
-        this.nbActions = 0;
-        this.currentStepIndex = 0;
 
         // Mise à jour du timer chaque seconde
+        if (this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(() => {
             if (this.status === 'playing') {
-                this.elapsedTime = Math.floor((Date.now() - this.startTime) / 1000);
+                this.elapsedTime++;
             }
         }, 1000);
     }
@@ -288,12 +296,21 @@ export class GameEngine {
     verifierProgression() {
         const erreurs = GameValidator.getErrors(this.logigramme);
         const scoreActuel = this.logigramme.calculerScore();
+        const totalAttendu = this.logigramme.solution.length;
+
+        // Compte le nombre de liaisons 'O' (true) posées par l'utilisateur
+        let nbChoixO = 0;
+        for (let value of this.logigramme.choix.values()) {
+            if (value === true) nbChoixO++;
+        }
         
         return {
             estValide: erreurs.length === 0,
             nbErreurs: erreurs.length,
             listeErreurs: erreurs,
-            score: scoreActuel
+            score: scoreActuel,
+            total: totalAttendu,
+            nbChoixO: nbChoixO
         };
     }
 

@@ -10,6 +10,14 @@
     --crm-hv-light: #7db9da25;
     --crm-hv-dark: #48828710;
     --border-radius: .4rem;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --transition-speed: 0.2s;
+}
+
+/* Empêche l'affichage des templates Vue.js non compilés */
+[v-cloak] {
+    display: none;
 }
 
 body.alt {
@@ -47,7 +55,6 @@ body {
 
 a {
     color: var(--crm-primary);
-    text-decoration: none;
 }
 
 a:hover {
@@ -57,7 +64,7 @@ a:hover {
 
 header, nav, main, footer {
     width: 1200px;
-    max-width: 100%;
+    max-width: 95%;
     margin: 0 auto;
     box-shadow: 0 0 2px var(--crm-primary);
 }
@@ -113,7 +120,8 @@ footer {
     text-decoration: none;
     border: 1px solid var(--crm-secondary);
     border-radius: var(--border-radius);
-    transition: background .3s ease;
+    transition: all var(--transition-speed) ease;
+    font-weight: 600;
 }
 
 .btn:hover {
@@ -219,18 +227,22 @@ footer {
 
 .logic-grid {
     border-collapse: collapse;
-    margin: 1rem;
+    margin: 1rem auto;
+    user-select: none; /* Empêche la sélection de texte lors des clics rapides */
 }
 
 .logic-grid th,
 .logic-grid td {
     padding: .5rem;
     border: 1px solid var(--crm-primary);
+    min-width: 35px;
+    height: 35px;
 }
 
 .logic-grid th {
     background: var(--crm-secondary);
     color: var(--body-cl);
+    font-size: 1.2rem;
 }
 
 .logic-grid td {
@@ -238,15 +250,22 @@ footer {
     color: var(--body-cl);
     text-align: center;
     cursor: pointer;
+    transition: background-color var(--transition-speed);
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
+.logic-grid td:hover {
+    background-color: var(--crm-hv-light);
 }
 
 .logic-grid td.cell-ok {
-    background: #2ecc71;
+    background: var(--success-color);
     color: white;
 }
 
 .logic-grid td.cell-ko {
-    background: #e74c3c;
+    background: var(--error-color);
     color: white;
 }
 
@@ -257,10 +276,11 @@ footer {
     background-color: #ffffff;
     color: var(--crm-primary);
     border: 1px solid var(--crm-ofp);
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) ease;
     cursor: pointer;
     padding: .5rem 1rem;
     width: 100%;
+    border-radius: var(--border-radius);
 }
 
 /* Changement de couleur quand une option est choisie */
@@ -270,15 +290,15 @@ footer {
 }
 
 .form-select:focus {
-    border-color: #00ff9d;
-    box-shadow: 0 0 8px rgba(0, 255, 157, 0.3);
-    background-color: #333;
+    outline: none;
+    border-color: var(--crm-secondary);
+    box-shadow: 0 0 8px rgba(237, 104, 64, 0.3);
 }
 
 /* Style des options (limité par le navigateur mais aide sur certains) */
 .form-select option {
-    background-color: #1e1e1e;
-    color: #ffffff;
+    background-color: white;
+    color: var(--body-cl);
 }
 
 /* Hover sur la ligne */

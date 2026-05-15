@@ -1,4 +1,6 @@
 import { exosLevels } from './dataset.js';
+import { GameEngine } from './models.js';
+import { LocalStorageProvider, ConfigurationManager } from './tools.js';
 
 export const ExoCard = {
   template: "#exo-card",
@@ -33,32 +35,22 @@ export const ExoCard = {
 export const ExoHelper = {
     template: "#exo-helper",
     props: {
-        exo: Object,
-        choixUtilisateur: Object
+        engine: Object
     },
-    // Props : correction (Array), choixUtilisateur (Object)
     data() {
         return {
-            etapeAideActuelle: 0,
             indicesAidesAffiches: []
         }
     },
     methods: {
         fournirAide() {
-            if (this.etapeAideActuelle < this.exo.correction.length) {
-              const etape = this.exo.correction[this.etapeAideActuelle];
-              this.indicesAidesAffiches.push(etape);
-
-              // On émet l'étape actuelle pour que le parent sache quelle "vérité" révéler
-              this.$emit('debloquer-case', this.etapeAideActuelle);
-
-              this.etapeAideActuelle++;
-          }
+            const etape = this.engine.revelerProchaineEtape();
+            if (etape) {
+                this.indicesAidesAffiches.push(etape);
+            }
         },
-        appliquerAideTechnique(indexEtape) {
-            // Logique pour extraire une paire et l'injecter dans choixUtilisateur
-            // Par exemple, si l'étape parle de "Cisco" et "Pos 1" :
-           // this.$emit('force-choice', { key: 'Cisco-Pos 1', value: 'O' });
+        utiliserJoker() {
+            this.$emit('use-joker');
         }
     }
 };
@@ -75,9 +67,8 @@ export const ExoGame = {
     data() {
         return {
             indicesBarres: [],
-            // On initialise un objet vide qui contiendra les états de la grille
-            choixUtilisateur: {},
-            dejaValide: false,
+            engine: null,
+            stats: null,
             score: 0,
             modeAffichage: 'grids' // 'grids' ou 'linear'
         };
@@ -87,7 +78,7 @@ export const ExoGame = {
         exo: {
             immediate: true,
             handler(nouvelExo) {
-                this.initialiserGrille(nouvelExo);
+                this.setupGame(nouvelExo);
             }
         }
     },
@@ -119,60 +110,63 @@ export const ExoGame = {
         // Pour mapper les sélections des <select> avec ton objet choixUtilisateur
         selectionLineaire() {
             const mapping = {};
-            if (!this.exo) return mapping;
+            if (!this.engine) return mapping;
 
             const positions = this.exo.categories[0].items;
             const autresCats = this.categoriesSansPositions;
 
             positions.forEach(pos => {
                 autresCats.forEach(cat => {
-                    // On cherche si une valeur "O" existe déjà pour cette paire
                     const itemTrouve = cat.items.find(item => 
-                        this.choixUtilisateur[`${pos}-${item}`] === 'O' || 
-                        this.choixUtilisateur[`${item}-${pos}`] === 'O'
+                        this.engine.logigramme.getLiaison(`${pos}-${item}`) === true
                     );
                     mapping[`${pos}-${cat.nom}`] = itemTrouve || "";
                 });
             });
             return mapping;
+        },
+        isFinished() {
+            return this.engine && this.engine.status === 'finished';
         }
     },
     methods: {
-        initialiserGrille(data) {
-            // Reset des états
-            this.choixUtilisateur = {};
+        setupGame(data) {
+            try {
+                ConfigurationManager.validate(data);
+            } catch (e) {
+                console.error("Erreur de configuration JSON :", e.message);
+                return;
+            }
             this.indicesBarres = [];
-            this.dejaValide = false;
-
-            // Sécurité : on vérifie que les catégories et items existent
-            if (!data.categories || data.categories.length < 2) return;
-
-            const lignes = data.categories[0].items;
-            const colonnes = data.categories[1].items;
-
-            lignes.forEach(row => {
-                colonnes.forEach(col => {
-                    // Création d'une clé unique pour chaque cellule de la grille
-                    this.choixUtilisateur[`${row}-${col}`] = null;
-                });
-            });
+            
+            const storage = new LocalStorageProvider(`save_${data.slug}`);
+            this.engine = new GameEngine(data, storage);
+            
+            // Tenter de charger une partie existante (si elle existe)
+            this.engine.storage.load(this.engine);
+            
+            // Dans tous les cas, on active le moteur (reprise ou nouveau)
+            this.engine.start();
 
             if (data.categories.length > 3) {
                     this.modeAffichage = 'linear';
                 } else {
                     this.modeAffichage = 'grids';
                 }
+            
+            // On injecte l'instance de l'engine dans les données pour le timer global (main.js)
+            data.engine = this.engine;
         },
         cycleCellState(row, col) {
-            if (this.dejaValide) return; // Bloque la grille après validation
-
+            if (this.isFinished) return;
             const key = `${row}-${col}`;
-            const current = this.choixUtilisateur[key];
+            const current = this.engine.logigramme.getLiaison(key);
             
-            // Cycle d'états : Vide -> X (Faux) -> O (Vrai) -> Vide
-            if (current === null) this.choixUtilisateur[key] = 'O';
-            else if (current === 'O') this.choixUtilisateur[key] = 'X';
-            else this.choixUtilisateur[key] = null;
+            let next = null;
+            if (current === null) next = false;
+            else if (current === false) next = true;
+
+            this.engine.notifierAction(key, next);
         },
         toggleIndice(idx) {
             const position = this.indicesBarres.indexOf(idx);
@@ -183,90 +177,50 @@ export const ExoGame = {
             }
         },
         getCellSymbol(row, col) {
-            const val = this.choixUtilisateur[`${row}-${col}`];
-            return val === null ? '' : val;
+            const val = this.engine.logigramme.getLiaison(`${row}-${col}`);
+            if (val === true) return 'O';
+            if (val === false) return 'X';
+            return '';
         },
 
         getCellClass(row, col) {
-            const val = this.choixUtilisateur[`${row}-${col}`];
+            const val = this.engine.logigramme.getLiaison(`${row}-${col}`);
             return {
                 'cell-interactive': true,
-                'cell-ok': val === 'O',
-                'cell-ko': val === 'X'
+                'cell-ok': val === true,
+                'cell-ko': val === false
             };
         },
         updateFromLinear(pos, catNom, nouvelItem) {
-            // 1. On trouve la catégorie concernée
-            const categorie = this.exo.categories.find(c => c.nom === catNom);
-            
-            // 2. AVANT de mettre à jour, on nettoie les anciens "O" pour cette ligne/colonne
-            // (Un serveur ne peut avoir qu'une seule marque, un seul OS, etc.)
-            categorie.items.forEach(item => {
-                delete this.choixUtilisateur[`${pos}-${item}`];
-                delete this.choixUtilisateur[`${item}-${pos}`];
-            });
-
-            // 3. On ajoute le nouveau "O" si une valeur est sélectionnée
-            if (nouvelItem) {
-                this.choixUtilisateur[`${pos}-${nouvelItem}`] = 'O';
-            }
-            
-            // 4. (Optionnel) On peut aussi déduire les "X" automatiquement ici 
-            // mais rester sur les "O" suffit pour la validation.
+            if (this.isFinished) return;
+            this.engine.notifierAction(`${pos}-${nouvelItem}`, true);
         },
+        undo() {
+            this.engine.undo();
+        },
+        useJoker() {
+            this.engine.ajouterJoker();
+        },
+
         validerExo() {
-          let liaisonsCompletes = 0;
-          const totalAttendu = this.exo.solution.length;
-
-          this.exo.solution.forEach(sol => {
-              const itemsAttendus = sol.liaison; // ex: ["Pos 1", "Cisco", "Bleue", "CentOS", "Nginx", "400W"]
-              
-              // On définit un pivot (la Position, qui est toujours itemsAttendus[0])
-              const pivot = itemsAttendus[0];
-              let correspondanceParfaite = true;
-
-              // On vérifie si CHAQUE autre item de la solution est lié au pivot dans choixUtilisateur
-              for (let i = 1; i < itemsAttendus.length; i++) {
-                  const itemCible = itemsAttendus[i];
-                  const key = `${pivot}-${itemCible}`;
-                  const keyInverse = `${itemCible}-${pivot}`;
-
-                  if (this.choixUtilisateur[key] !== 'O' && this.choixUtilisateur[keyInverse] !== 'O') {
-                      correspondanceParfaite = false;
-                      break;
-                  }
-              }
-
-              if (correspondanceParfaite) liaisonsCompletes++;
-          });
-
-          this.score = liaisonsCompletes;
-            this.dejaValide = this.score === totalAttendu; // Si tout est correct, on bloque la grille
-
-            if (this.score === totalAttendu) {
-                alert("Félicitations ! Tous les éléments sont correctement associés. 🎉");
-            } else {
-                alert(`Attention, il te manque des associations. Tu as ${this.score} association(s) complète(s) sur ${totalAttendu}.`);
-            }
-        },
-        appliquerIndiceTechnique(indexEtape) {
-            // Stratégie simple : on révèle un élément de la solution 
-            // correspondant à l'index de l'aide demandée.
-            const solutionGénérale = this.exo.solution[indexEtape]; 
+            const rapport = this.engine.verifierProgression();
             
-            if (solutionGénérale) {
-                const pivot = solutionGénérale.liaison[0]; // ex: "Pos 1"
-                const itemARevéler = solutionGénérale.liaison[1]; // ex: "Cisco"
-
-                // On injecte le "O" dans les choix de l'utilisateur
-                this.choixUtilisateur = {
-                    ...this.choixUtilisateur,
-                    [`${pivot}-${itemARevéler}`]: 'O'
-                };
+            // Cas 1 : La grille est vide
+            if (rapport.nbChoixO === 0) {
+                alert("Votre grille est vide ! Analysez les indices pour placer vos premières marques 'O'.");
+            } 
+            // Cas 2 : Il y a des erreurs (des 'O' là où il ne faut pas)
+            else if (rapport.nbErreurs > 0) {
+                alert(`Vous avez ${rapport.nbErreurs} erreur(s) dans votre grille.`);
+            } 
+            // Cas 3 : C'est juste mais incomplet
+            else if (rapport.score < rapport.total) {
+                alert(`C'est un bon début ! Vous avez ${rapport.score} ligne(s) correcte(s) sur ${rapport.total}. Continuez !`);
+            } else {
+                // Cas 4 : Tout est parfait
+                this.stats = this.engine.stop();
+                alert("Félicitations ! Exercice terminé avec succès.");
             }
         }
     }
 };
-
-
-

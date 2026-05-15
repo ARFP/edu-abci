@@ -60,7 +60,7 @@
         </template>    
 
         <template id="exo-game">
-            <div class="logic-exercise" v-if="exo && exo.categories && exo.categories.length >= 2">
+            <div class="logic-exercise" v-if="engine && exo.categories && exo.categories.length >= 2">
                 <!-- Section des Indices -->
                 <section class="indices-section">
                 <h3>📜 Indices</h3>
@@ -86,7 +86,7 @@
                 <hr />
 
                 <!-- LE COMPOSANT D'AIDE -->
-                <exo-helper :exo="exo" @debloquer-case="appliquerIndiceTechnique"></exo-helper>    
+                <exo-helper :engine="engine" @use-joker="useJoker"></exo-helper>    
 
                 <hr />
 
@@ -153,8 +153,19 @@
             </div>
 
                 <!-- Bouton de validation -->
-                <div class="actions">
-                <button @click="validerExo" class="btn btn-check">Vérifier mes réponses</button>
+                <div class="actions mt-4 d-flex gap-2">
+                    <button @click="validerExo" class="btn btn-check" :disabled="isFinished">
+                        Vérifier mes réponses
+                    </button>
+                    <button @click="undo" class="btn btn-outline-secondary" :disabled="isFinished">
+                        ↩ Annuler
+                    </button>
+                </div>
+
+                <!-- Affichage des statistiques de fin -->
+                <div v-if="stats" class="alert alert-success mt-4">
+                    <h4>Bravo !</h4>
+                    <p>Temps : {{ stats.dureeFormatee }} | Actions : {{ stats.nbActions }} | Score : {{ stats.score }}</p>
                 </div>
             </div>
         </template>
@@ -163,10 +174,17 @@
             <section class="help-system my-4">
                 <button 
                     @click="fournirAide" 
-                    :disabled="etapeAideActuelle >= exo.correction.length"
+                    :disabled="engine.currentStepIndex >= engine.logigramme.correction.length"
                     class="btn btn-outline-info"
                 >
-                    <i class="fas fa-lightbulb"></i> Aidez-moi ({{ exo.correction.length - etapeAideActuelle }} restants)
+                    <i class="fas fa-lightbulb"></i> Aide pas-à-pas ({{ engine.logigramme.correction.length - engine.currentStepIndex }} restants)
+                </button>
+
+                <button 
+                    @click="utiliserJoker" 
+                    class="btn btn-outline-warning ms-2"
+                >
+                    <i class="fas fa-magic"></i> Joker (Coup de pouce)
                 </button>
 
                 <div class="mt-3">
