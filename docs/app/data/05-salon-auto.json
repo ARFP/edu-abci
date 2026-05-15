@@ -1,0 +1,55 @@
+{
+  "categories": [
+    {
+      "nom": "Positions",
+      "items": ["Gauche", "Milieu", "Droite"]
+    },
+    {
+      "nom": "Marques",
+      "items": ["Tesla", "Porsche", "Audi"]
+    },
+    {
+      "nom": "Couleurs",
+      "items": ["Bleu", "Rouge", "Gris"]
+    },
+    {
+      "nom": "Autonomie",
+      "items": ["450 km", "520 km", "610 km"]
+    }
+  ],
+  "solution": [
+    [0, 1, 2, 1],
+    [1, 0, 0, 2],
+    [2, 2, 1, 0]
+  ],
+  "indices": [
+    "La voiture garée à gauche est la Porsche.",
+    "La voiture Gris a une autonomie de 520 km.",
+    "L'Audi n'est pas garée à côté de la voiture qui a 610 km d'autonomie.",
+    "La voiture Rouge est garée à l'extrémité droite.",
+    "La Tesla a une meilleure autonomie que l'Audi.",
+    "La Porsche n'est pas Bleu."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Ancrage des positions",
+      "explication": "L'indice 1 fixe la Porsche à la position Gauche. L'indice 4 place la voiture Rouge à l'extrémité Droite."
+    },
+    {
+      "etape": 2,
+      "titre": "Déduction des couleurs",
+      "explication": "La Porsche (Gauche) n'est pas bleue (indice 6). Comme la place de droite est occupée par la voiture rouge, la Porsche est obligatoirement Grise. Par élimination, la voiture Bleue est au milieu."
+    },
+    {
+      "etape": 3,
+      "titre": "Attribution de l'autonomie",
+      "explication": "La voiture Grise (Porsche) a 520 km d'autonomie (indice 2). La Tesla est meilleure que l'Audi (indice 5) : il reste 610 km et 450 km. Tesla = 610 km, Audi = 450 km."
+    },
+    {
+      "etape": 4,
+      "titre": "Finalisation spatiale",
+      "explication": "L'indice 3 indique que l'Audi (450 km) n'est pas à côté de la Tesla (610 km). Avec la Porsche à gauche, l'Audi doit être à droite et la Tesla au milieu pour qu'elles ne soient pas voisines."
+    }
+  ]
+}

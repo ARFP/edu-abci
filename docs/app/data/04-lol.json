@@ -1,0 +1,52 @@
+{
+  "categories": [
+    {
+      "nom": "Joueurs",
+      "items": ["Karmen", "Faker", "Rookie", "Valenticia"]
+    },
+    {
+      "nom": "Rôles",
+      "items": ["Support", "Mid", "Jungle", "Top"]
+    },
+    {
+      "nom": "Champions",
+      "items": ["Ahri", "Lee Sin", "Lulu", "Teemo"]
+    }
+  ],
+  "solution": [
+    [0, 0, 2],
+    [1, 1, 1],
+    [2, 2, 0],
+    [3, 3, 3]
+  ],
+  "indices": [
+    "Le Support joue le champion Lulu.",
+    "Rookie joue au poste de Jungle.",
+    "Faker est un joueur Mid.",
+    "Valenticia n'est ni Mid ni Support.",
+    "Le joueur Top utilise le champion Teemo.",
+    "Le champion Ahri n'est pas joué par le joueur Mid."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Ancrage des rôles",
+      "explication": "On commence par placer les rôles certains : Rookie est en Jungle (Indice 2) et Faker est Mid (Indice 3)."
+    },
+    {
+      "etape": 2,
+      "titre": "Positionnement de Valenticia",
+      "explication": "L'indice 4 exclut Valenticia du Mid et du Support. Comme le Mid (Faker) et la Jungle (Rookie) sont pris, Valenticia est obligatoirement Top. Par élimination, Karmen est Support."
+    },
+    {
+      "etape": 3,
+      "titre": "Liaison Champions",
+      "explication": "Karmen (Support) joue Lulu (indice 1). Valenticia (Top) joue Teemo (indice 5)."
+    },
+    {
+      "etape": 4,
+      "titre": "Dénouement",
+      "explication": "Il reste Faker (Mid) et Rookie (Jungle) pour Ahri et Lee Sin. L'indice 6 exclut Ahri du Mid. Donc Faker joue Lee Sin et Rookie joue Ahri."
+    }
+  ]
+}

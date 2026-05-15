@@ -1,0 +1,49 @@
+{
+  "categories": [
+    {
+      "nom": "Développeurs",
+      "items": ["Sam", "Alex", "Lou"]
+    },
+    {
+      "nom": "Outils",
+      "items": ["Git", "SVN", "Mercurial"]
+    },
+    {
+      "nom": "Heures",
+      "items": ["08h00", "09h00", "10h00"]
+    }
+  ],
+  "solution": [
+    [0, 1, 0],
+    [1, 0, 1],
+    [2, 2, 2]
+  ],
+  "indices": [
+    "Sam a déployé à 08h00.",
+    "Celui qui utilise Mercurial a déployé à 10h00.",
+    "Alex utilise Git.",
+    "Lou n'utilise pas SVN."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Les ancrages directs",
+      "explication": "L'indice 1 nous donne une information directe : Sam a déployé à 08h00. L'indice 3 nous confirme qu'Alex utilise Git."
+    },
+    {
+      "etape": 2,
+      "titre": "Déduction de l'outil de Lou",
+      "explication": "L'indice 4 indique que Lou n'utilise pas SVN. Comme nous savons déjà qu'Alex utilise Git, Lou utilise forcément Mercurial par élimination."
+    },
+    {
+      "etape": 3,
+      "titre": "Lien outil et horaire",
+      "explication": "D'après l'indice 2, l'utilisateur de Mercurial a déployé à 10h00. Lou utilisant Mercurial, elle a donc déployé à 10h00."
+    },
+    {
+      "etape": 4,
+      "titre": "Finalisation de la grille",
+      "explication": "Il ne reste que 09h00 pour Alex. Enfin, par élimination des outils pour Sam, on en déduit qu'il utilise SVN."
+    }
+  ]
+}

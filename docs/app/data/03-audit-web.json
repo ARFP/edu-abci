@@ -1,0 +1,49 @@
+{
+  "categories": [
+    {
+      "nom": "Sites",
+      "items": ["Blog Tech", "E-commerce", "Portfolio"]
+    },
+    {
+      "nom": "Temps de chargement",
+      "items": ["1.2s", "2.5s", "3.8s"]
+    },
+    {
+      "nom": "Langages",
+      "items": ["PHP", "Node.js", "Go"]
+    }
+  ],
+  "solution": [
+    [0, 1, 0],
+    [1, 0, 2],
+    [2, 2, 1]
+  ],
+  "indices": [
+    "Le site en Go est plus rapide que le site de E-commerce.",
+    "Le Blog Tech a un temps de chargement de 2.5s.",
+    "Le site utilisant Node.js est plus lent que le Blog Tech.",
+    "Le site avec le score SEO le plus élevé (le plus rapide) n'est pas le Portfolio."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Ancrages directs",
+      "explication": "L'indice 2 fixe le Blog Tech à 2.5s. L'indice 3 indique que Node.js est plus lent que le Blog Tech (2.5s), donc Node.js est à 3.8s."
+    },
+    {
+      "etape": 2,
+      "titre": "Déduction du langage Go",
+      "explication": "L'indice 1 dit que Go est plus rapide que l'E-commerce. Go ne peut donc pas être 3.8s (Node.js) ni 2.5s (Blog Tech). Go est donc à 1.2s."
+    },
+    {
+      "etape": 3,
+      "titre": "Attribution des temps de chargement",
+      "explication": "Puisque Go (1.2s) est plus rapide que l'E-commerce, l'E-commerce ne peut pas être 1.2s. Le Blog Tech est à 2.5s. Donc l'E-commerce est à 3.8s. Par élimination, le Portfolio est à 1.2s."
+    },
+    {
+      "etape": 4,
+      "titre": "Vérification et finalisation",
+      "explication": "L'indice 4 dit que le plus rapide (1.2s) n'est pas le Portfolio. Cela signifie que l'E-commerce est à 1.2s. Par élimination, le Portfolio est à 3.8s. Les langages restants sont PHP pour le Blog Tech et Go pour l'E-commerce."
+    }
+  ]
+}

@@ -78,7 +78,7 @@ export const ExoGame = {
         exo: {
             immediate: true,
             handler(nouvelExo) {
-                this.setupGame(nouvelExo);
+                this.setupGame(nouvelExo.data); // Passer l'objet de données interne à setupGame
             }
         }
     },
@@ -86,16 +86,16 @@ export const ExoGame = {
         // Génère les paires de catégories à croiser (0-1, 0-2, 1-2, etc.)
         pairesDeGrilles() {
             const paires = [];
-            const cats = this.exo.categories;
+            const cats = this.exo.data.categories; 
             for (let i = 0; i < cats.length; i++) {
                 for (let j = i + 1; j < cats.length; j++) {
                     paires.push({
                         indexLigne: i,
                         indexCol: j,
-                        nomLigne: cats[i].nom,
-                        nomCol: cats[j].nom,
-                        itemsLigne: cats[i].items,
-                        itemsCol: cats[j].items
+                        nomLigne: cats[i].nom, // Accéder via .data
+                        nomCol: cats[j].nom, // Accéder via .data
+                        itemsLigne: cats[i].items, // Accéder via .data
+                        itemsCol: cats[j].items // Accéder via .data
                     });
                 }
             }
@@ -103,16 +103,16 @@ export const ExoGame = {
         },
         // On exclut la première catégorie (Positions) pour ne pas l'avoir en doublon dans les lignes
         categoriesSansPositions() {
-            if (!this.exo || !this.exo.categories) return [];
-            return this.exo.categories.slice(1);
+            if (!this.exo || !this.exo.data || !this.exo.data.categories) return []; // Accéder via .data
+            return this.exo.data.categories.slice(1); // Accéder via .data
         },
         
         // Pour mapper les sélections des <select> avec ton objet choixUtilisateur
         selectionLineaire() {
             const mapping = {};
-            if (!this.engine) return mapping;
+            if (!this.engine || !this.exo.data) return mapping; // Vérifier aussi exo.data
 
-            const positions = this.exo.categories[0].items;
+            const positions = this.exo.data.categories[0].items;
             const autresCats = this.categoriesSansPositions;
 
             positions.forEach(pos => {
@@ -137,25 +137,34 @@ export const ExoGame = {
                 console.error("Erreur de configuration JSON :", e.message);
                 return;
             }
+
             this.indicesBarres = [];
+            this.stats = null;
             
-            const storage = new LocalStorageProvider(`save_${data.slug}`);
+            const storage = new LocalStorageProvider(`save_${this.exo.slug}`);
             this.engine = new GameEngine(data, storage);
-            
-            // Tenter de charger une partie existante (si elle existe)
-            this.engine.storage.load(this.engine);
+
+            // Vérifier s'il existe une sauvegarde pour cet exercice
+            const savedState = localStorage.getItem(storage.STORAGE_KEY);
+            if (savedState) {
+                const userWantsToLoad = confirm("Une partie en cours a été trouvée. Souhaitez-vous la reprendre ?\n(Annuler pour recommencer à zéro)");
+                if (userWantsToLoad) {
+                    this.engine.storage.load(this.engine);
+                } else {
+                    this.engine.storage.clear();
+                }
+            }
             
             // Dans tous les cas, on active le moteur (reprise ou nouveau)
             this.engine.start();
-
-            if (data.categories.length > 3) {
+            // 'data.categories.length' est correct car 'data' est l'objet de données interne
+            if (data.categories.length > 3) { 
                     this.modeAffichage = 'linear';
                 } else {
                     this.modeAffichage = 'grids';
                 }
             
-            // On injecte l'instance de l'engine dans les données pour le timer global (main.js)
-            data.engine = this.engine;
+            this.exo.data.engine = this.engine; // Attacher l'instance de l'engine à l'objet de données de l'exercice
         },
         cycleCellState(row, col) {
             if (this.isFinished) return;
@@ -204,7 +213,7 @@ export const ExoGame = {
 
         validerExo() {
             const rapport = this.engine.verifierProgression();
-            
+            // 'this.exo.data.solution.length' est déjà géré par 'this.engine.logigramme.solution.length'
             // Cas 1 : La grille est vide
             if (rapport.nbChoixO === 0) {
                 alert("Votre grille est vide ! Analysez les indices pour placer vos premières marques 'O'.");

@@ -18,7 +18,6 @@ createApp(
         this.currentType = this.types[0];
     },
     computed: {
-        // Le temps est maintenant géré par le GameEngine de l'exercice courant
         formattedTime() {
             return this.current && this.current.data && this.current.data.engine
                 ? this.current.data.engine.formattedTime
@@ -27,7 +26,7 @@ createApp(
     },
     methods: {
         filterCategories(e) {
-            if(this.current !== null) return;
+            if(this.current !== null) this.current = null;
             let c = e.target.dataset.cat;
             this.currentType = c;
             this.exos = exosCollection.filter(exo => exo.categorie === c);
@@ -40,7 +39,13 @@ createApp(
         async exoSelect(exo) {
             await this.exoLoad(exo);
             this.current = exo;
+        },
+        resetData() {
+            localStorage.clear();
+            this.current = null;
+            this.currentType = this.types[0];
         }
+        
     }
 }
 ).mount('#app')

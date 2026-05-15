@@ -1,63 +1,52 @@
 ## Exercice : Incident de Cybersécurité
 
-**Objectif :** Lors d'une cyber-attaque, trois serveurs ont été compromis. Vous devez retrouver l'**ordre** des attaques, le **type de malware** utilisé et le **point d'entrée** (vulnérabilité).
+**Objectif :** Lors d'une cyber-attaque, quatre serveurs ont été compromis. Vous devez retrouver l'**ordre** des attaques, le **type de malware** utilisé et le **point d'entrée** (vulnérabilité).
 
-*   **Serveurs :** Alpha, Beta, Gamma.
-*   **Malwares :** Ransomware, Spyware, Rootkit.
-*   **Points d'entrée :** Phishing, SQL Injection, Port 22 ouvert.
+*   **Serveurs :** Alpha, Beta, Gamma, Delta.
+*   **Malwares :** Ransomware, Spyware, Rootkit, Trojan.
+*   **Points d'entrée :** Phishing, SQL Injection, Port 22 ouvert, Bruteforce.
 
 **Indices :**
-1. Le serveur **Beta** a été attaqué après le serveur victime de **SQL Injection**, mais avant le serveur infecté par le **Spyware**.
-2. L'attaque via le **Port 22 ouvert** n'est ni la première, ni la dernière.
-3. Le **Rootkit** a été détecté sur le serveur **Alpha**.
-4. Le serveur **Gamma** n'a pas été compromis par un **Phishing**.
-5. L'attaque sur le serveur **Alpha** a eu lieu chronologiquement après celle du serveur victime de **Phishing**.
+1. Le serveur **Beta** a été compromis en 3ème position, immédiatement après celui victime d'une **SQL Injection**.
+2. Le malware **Rootkit** n'a pas été trouvé sur le serveur **Gamma**, qui a été le tout premier à subir l'attaque.
+3. L'attaque par **Phishing** s'est déroulée avant celle par **Bruteforce**.
+4. Le **Ransomware** a été détecté sur le serveur **Delta**.
+5. Le serveur **Alpha** a été le dernier attaqué (4ème).
+6. Le malware **Spyware** est lié à l'ouverture du **Port 22**.
+7. L'attaque par **injection SQL** n'a pas touché le serveur **Alpha**.
 
 ---
 
 ### La Grille (À compléter)
 
-| | 1ère | 2ème | 3ème | Alpha | Beta | Gamma |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Ransomware**| | | | | | |
-| **Spyware** | | | | | | |
-| **Rootkit** | | | | | | |
-| **---** | **---** | **---** | **---** | **---** | **---** | **---** |
-| **Phishing** | | | | | | |
-| **SQL Inj.** | | | | | | |
-| **Port 22** | | | | | | |
+| | 1er | 2ème | 3ème | 4ème | Alpha | Beta | Gamma | Delta |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Ransomware**| | | | | | | | |
+| **Spyware** | | | | | | | | |
+| **Rootkit** | | | | | | | | |
+| **Trojan** | | | | | | | | |
+| **---** | **---** | **---** | **---** | **---** | **---** | **---** | **---** | **---** |
+| **Phishing** | | | | | | | | |
+| **SQL Inj.** | | | | | | | | |
+| **Port 22** | | | | | | | | |
+| **Bruteforce**| | | | | | | | |
 
 <div style="page-break-after:always;"></div>
 
 ## Correction : Incident de Cybersécurité
 
-1.  **Chronologie des serveurs :**
-    *   L'indice 1 crée une chaîne : `SQL Inj.` -> `Beta` -> `Spyware`.
-    *   Cela signifie que **Beta est 2ème**.
-    *   Le `SQL Inj.` est donc **1er** et le `Spyware` est **3ème**.
-2.  **Points d'entrée :**
-    *   L'indice 2 dit que le **Port 22** n'est ni 1er ni 3ème. Il est donc **2ème** (sur le serveur Beta).
-    *   Par élimination, le **Phishing** est 3ème (car le SQL Inj. est 1er).
-3.  **Localisation des serveurs :**
-    *   L'indice 5 dit que **Alpha** vient après le Phishing (qui est 3ème). **ATTENTION :** Cela semble impossible si Phishing est 3ème. 
-    *   *Correction de la logique :* Relisons l'indice 4. Si Gamma n'est pas Phishing, et que Phishing n'est pas Beta (Port 22), alors **Phishing est 1er**.
-    *   Si Phishing est 1er, alors selon l'indice 5, **Alpha** est soit 2ème, soit 3ème.
-    *   Reprenons la chaîne de l'indice 1 : `SQL Inj.` (1er) -> `Beta` (2ème) -> `Spyware` (3ème).
-    *   Si Beta est 2ème et que Port 22 est 2ème (indice 2), alors **Beta = Port 22**.
-    *   Si Alpha vient après le Phishing (1er), et que Beta est 2ème, alors **Alpha est 3ème**.
-    *   Par élimination, **Gamma est 1er**.
-4.  **Malwares :**
-    *   Alpha (3ème) est infecté par le **Rootkit** (indice 3).
-    *   Le Spyware est 3ème (indice 1), donc **Alpha = Rootkit = Spyware ?** Non, il y a un bug dans l'énoncé de l'apprenant.
-    *   *Logique finale révisée :* 
-        *   1er : **Gamma** | Phishing | Ransomware
-        *   2ème : **Beta** | Port 22 | Spyware
-        *   3ème : **Alpha** | SQL Injection | Rootkit
+1. **Ancrage temporel :** L'indice 2 fixe **Gamma** en 1ère position. L'indice 5 fixe **Alpha** en 4ème position.
+2. **La séquence Beta :** L'indice 1 nous dit que **Beta** est 3ème et qu'il suit immédiatement l'injection SQL. Donc l'**injection SQL** a eu lieu en 2ème position.
+3. **Identification du 2ème serveur :** Par élimination des positions et des serveurs, le 2ème serveur est **Delta**. L'indice 4 nous apprend que Delta est infecté par un **Ransomware**.
+4. **Points d'entrée restants :** Il reste Phishing et Bruteforce pour les positions 1 et 4. L'indice 3 (Phishing avant Bruteforce) place le **Phishing** en 1er (Gamma) et le **Bruteforce** en 4ème (Alpha).
+5. **Vecteurs techniques :** L'indice 6 lie le **Port 22** au **Spyware**. Ce duo ne peut aller qu'en 3ème position (Beta), car les autres positions ont déjà leurs points d'entrée ou malwares.
+6. **Malwares finaux :** Il reste Trojan et Rootkit. L'indice 2 exclut le Rootkit de Gamma (1er). Le **Rootkit** est donc sur Alpha (4ème), et le **Trojan** sur Gamma (1er).
 
 **Résultat final :**
 
 | Ordre | Serveur | Point d'entrée | Malware |
 | :--- | :--- | :--- | :--- |
-| **1er** | **Gamma** | Phishing | Ransomware |
-| **2ème** | **Beta** | Port 22 | Spyware |
-| **3ème** | **Alpha** | SQL Injection | Rootkit |
+| **1er** | **Gamma** | Phishing | Trojan |
+| **2ème** | **Delta** | SQL Injection | Ransomware |
+| **3ème** | **Beta** | Port 22 ouvert | Spyware |
+| **4ème** | **Alpha** | Bruteforce | Rootkit |

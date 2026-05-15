@@ -1,0 +1,44 @@
+{
+  "categories": [
+    {
+      "nom": "Prénoms",
+      "items": ["Inès", "Kevin", "Lucie"]
+    },
+    {
+      "nom": "Âges",
+      "items": ["25 ans", "30 ans", "35 ans"]
+    },
+    {
+      "nom": "Métiers",
+      "items": ["DevOps", "Data Scientist", "UX Designer"]
+    }
+  ],
+  "solution": [
+    [0, 0, 2],
+    [1, 2, 0],
+    [2, 1, 1]
+  ],
+  "indices": [
+    "La personne qui est UX Designer est plus jeune que Kevin.",
+    "Inès n'est pas la plus âgée du groupe.",
+    "La personne de 30 ans est Data Scientist.",
+    "L'âge de la personne qui travaille en DevOps est supérieur de 5 ans à celui d'Inès."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Analyse de l'écart d'âge",
+      "explication": "L'indice 4 est la clé : le DevOps a au moins 5 ans de plus qu'Inès. L'indice 3 fixe le Data Scientist à 30 ans. Si Inès avait 30 ans, elle serait Data Scientist, ce qui est incompatible avec l'indice 4 (elle ne pourrait pas avoir de collègue DevOps plus âgé de seulement 5 ans car 35 serait déjà pris ou elle-même serait le DevOps). On en déduit qu'Inès a 25 ans."
+    },
+    {
+      "etape": 2,
+      "titre": "Attribution par élimination",
+      "explication": "Inès (25 ans) n'est pas la plus âgée (indice 2). L'UX Designer est plus jeune que Kevin (indice 1). Par déduction, Kevin est le plus âgé (35 ans) et travaille en DevOps."
+    },
+    {
+      "etape": 3,
+      "titre": "Finalisation des profils",
+      "explication": "Puisque Kevin est à 35 ans (DevOps) et Inès à 25 ans, Lucie a obligatoirement 30 ans. Selon l'indice 3, elle est donc la Data Scientist. Par élimination, Inès est l'UX Designer."
+    }
+  ]
+}

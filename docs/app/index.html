@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raisonnement Logique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/style.css">
     <script type="module" src="assets/main.js" defer></script>
 </head>
@@ -33,13 +34,13 @@
                 <div class="exo-top">
                     <a class="btn" href="#" @click="current = null">← Retour à la liste</a>
                     <div class="timer">⏱ Temps écoulé : <strong>{{ formattedTime }}</strong></div>
-                </div>
+                </div> 
                 <exo-card :exo="current" @exo-select="exoSelect" :selected="true"></exo-card>
-                <exo-game :exo="current.data"></exo-game>
+                <exo-game :exo="current"></exo-game>
             </section>
         </main>
         <footer>
-            <p>&copy; <a href="https://github.com/mdevoldere">Mickaël DEVOLDÈRE</a> pour <a href="https://crm68.fr">Centre de Réadaptation de Mulhouse.</a> Tous droits réservés.</p>
+            <p><a href="#" @click="resetData">&copy;</a> <a href="https://github.com/mdevoldere">Mickaël DEVOLDÈRE</a> pour <a href="https://crm68.fr">Centre de Réadaptation de Mulhouse.</a> Tous droits réservés.</p>
         </footer>
 
     </div>
@@ -60,13 +61,24 @@
         </template>    
 
         <template id="exo-game">
-            <div class="logic-exercise" v-if="engine && exo.categories && exo.categories.length >= 2">
+            <div class="logic-exercise" v-if="engine && exo.data && exo.data.categories && exo.data.categories.length >= 2">
+                <!-- section des catégories -->
+                <section class="categories-section">
+                <h3>📂 Catégories</h3>
+                <ol>
+                    <li 
+                    v-for="(cat, index) in exo.data.categories" 
+                    :key="index">
+                        {{ cat.nom }} : <span v-for="item in cat.items" :key="item"> {{ item }}. </span>
+                    </li>
+                </ol>
+
                 <!-- Section des Indices -->
                 <section class="indices-section">
                 <h3>📜 Indices</h3>
                 <ol>
                     <li 
-                    v-for="(indice, index) in exo.indices" 
+                    v-for="(indice, index) in exo.data.indices" 
                     :key="index"
                     @click="toggleIndice(index)"
                     :class="{ 'text-muted strikethrough': indicesBarres.includes(index) }"
@@ -78,16 +90,11 @@
 
                 <hr />
 
-                <div class="display-toggle mb-3">
-                    <button @click="modeAffichage = 'grids'" class="btn" :class="{ active: modeAffichage === 'grids' }">Vue Relationnelle (grilles)</button>
+                <div class="grid-wrapper"> 
+                    <exo-helper :engine="engine" @use-joker="useJoker"></exo-helper>  
+                    <button @click="modeAffichage = 'grids'" class="btn" :class="{ active: modeAffichage === 'grids' }"><i class="fa fa-"></i>Vue Relationnelle (grilles)</button>
                     <button @click="modeAffichage = 'linear'" class="btn" :class="{ active: modeAffichage === 'linear' }">Vue Linéaire (Zebra)</button>
                 </div>
-
-                <hr />
-
-                <!-- LE COMPOSANT D'AIDE -->
-                <exo-helper :engine="engine" @use-joker="useJoker"></exo-helper>    
-
                 <hr />
 
             <!-- Conteneur des Grilles -->
@@ -126,7 +133,7 @@
                         <tr>
                             <th>Attributs</th>
                             <!-- On affiche Pos 1, Pos 2, etc. -->
-                            <th v-for="pos in exo.categories[0].items" :key="pos">
+                            <th v-for="pos in exo.data.categories[0].items" :key="pos">
                                 {{ pos }}
                             </th>
                         </tr>
@@ -134,7 +141,7 @@
                     <tbody>
                         <tr v-for="cat in categoriesSansPositions" :key="cat.nom">
                             <td class="bg-light"><strong>{{ cat.nom }}</strong></td>
-                            <td v-for="pos in exo.categories[0].items" :key="pos">
+                            <td v-for="pos in exo.data.categories[0].items" :key="pos">
                                 <select 
                                     :value="selectionLineaire[pos + '-' + cat.nom]"
                                     @change="updateFromLinear(pos, cat.nom, $event.target.value)"
@@ -165,26 +172,34 @@
                 <!-- Affichage des statistiques de fin -->
                 <div v-if="stats" class="alert alert-success mt-4">
                     <h4>Bravo !</h4>
+                    <ul>
+                        <li>Exercice : {{ exo.titre }}</li>
+                        <li>Difficulté : {{ exo.difficulte }}</li>
+                        <li>Catégories : {{ exo.data.categories.length }}</li>
+                        <li>Indices : {{ exo.data.indices.length }}</li>
+                        <li>Date Session : {{ stats.dateSession }}</li>
+                        <li>Temps : {{ stats.dureeFormatee }}</li>
+                        <li>Actions : {{ stats.nbActions }}</li>
+                        <li>Indices demandés : {{ stats.nbAidesConsultees }}</li>
+                        <li>Jokers utilisés : {{ stats.nbJokers }}</li>
+                        <li>Score : {{ stats.score }}</li>
+                        <li>ScoreAide : {{ stats.scoreAide }}</li>
+                        <li>ScorePur : {{ stats.scorePur }}</li>
+                    </ul>
                     <p>Temps : {{ stats.dureeFormatee }} | Actions : {{ stats.nbActions }} | Score : {{ stats.score }}</p>
                 </div>
             </div>
         </template>
 
         <template id="exo-helper">
-            <section class="help-system my-4">
-                <button 
-                    @click="fournirAide" 
-                    :disabled="engine.currentStepIndex >= engine.logigramme.correction.length"
-                    class="btn btn-outline-info"
-                >
-                    <i class="fas fa-lightbulb"></i> Aide pas-à-pas ({{ engine.logigramme.correction.length - engine.currentStepIndex }} restants)
+            <section class="grid-wrapper">
+                <button @click="fournirAide" :disabled="engine.currentStepIndex >= engine.logigramme.correction.length"
+                    class="btn" title="Obtenir une aide pas-à-pas pour avancer dans la résolution de l'exercice">
+                    <i class="fa fa-commenting"></i> Aide ({{ engine.logigramme.correction.length - engine.currentStepIndex }} restants)
                 </button>
 
-                <button 
-                    @click="utiliserJoker" 
-                    class="btn btn-outline-warning ms-2"
-                >
-                    <i class="fas fa-magic"></i> Joker (Coup de pouce)
+                <button @click="utiliserJoker" class="btn" title="Utiliser un joker pour révéler une information clé de la solution. À utiliser avec parcimonie !">
+                    <i class="fa fa-magic"></i> Joker
                 </button>
 
                 <div class="mt-3">
