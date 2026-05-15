@@ -19,7 +19,7 @@
     [2, 2, 1]
   ],
   "indices": [
-    "Le site en Go est plus rapide que le site de E-commerce.",
+    "Le site en Go n'est pas plus lent que le site de E-commerce.",
     "Le Blog Tech a un temps de chargement de 2.5s.",
     "Le site utilisant Node.js est plus lent que le Blog Tech.",
     "Le site avec le score SEO le plus élevé (le plus rapide) n'est pas le Portfolio."
@@ -43,7 +43,7 @@
     {
       "etape": 4,
       "titre": "Vérification et finalisation",
-      "explication": "L'indice 4 dit que le plus rapide (1.2s) n'est pas le Portfolio. Cela signifie que l'E-commerce est à 1.2s. Par élimination, le Portfolio est à 3.8s. Les langages restants sont PHP pour le Blog Tech et Go pour l'E-commerce."
+      "explication": "L'indice 4 dit que le plus rapide (1.2s) n'est pas le Portfolio. L'E-commerce est à 1.2s. Par élimination, le Portfolio est à 3.8s. Les langages restants sont PHP pour le Blog Tech et Go pour l'E-commerce."
     }
   ]
 }

@@ -25,7 +25,7 @@
   "indices": [
     "La voiture garée à gauche est la Porsche.",
     "La voiture Gris a une autonomie de 520 km.",
-    "L'Audi n'est pas garée à côté de la voiture qui a 610 km d'autonomie.",
+    "L'Audi n'est pas garée à gauche de la voiture qui a 610 km d'autonomie.",
     "La voiture Rouge est garée à l'extrémité droite.",
     "La Tesla a une meilleure autonomie que l'Audi.",
     "La Porsche n'est pas Bleu."
@@ -49,7 +49,7 @@
     {
       "etape": 4,
       "titre": "Finalisation spatiale",
-      "explication": "L'indice 3 indique que l'Audi (450 km) n'est pas à côté de la Tesla (610 km). Avec la Porsche à gauche, l'Audi doit être à droite et la Tesla au milieu pour qu'elles ne soient pas voisines."
+      "explication": "L'indice 3 indique que l'Audi (450 km) n'est pas à gauche de la Tesla (610 km). Avec la Porsche à gauche, l'Audi doit être à droite et la Tesla au milieu."
     }
   ]
 }
