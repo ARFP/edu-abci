@@ -1,0 +1,318 @@
+:root {
+    --body-bg: #F5F5F5;
+    --body-cl: #111111;
+    --crm-primary: #1b296a;
+    --crm-secondary: #ed6840;
+    --crm-rf: #cf2d4f;
+    --crm-ofp: #7db9da;
+    --crm-services: #f6af2e;
+    --crm-mecenat: #488287;
+    --crm-hv-light: #7db9da25;
+    --crm-hv-dark: #48828710;
+    --border-radius: .4rem;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --transition-speed: 0.2s;
+}
+
+/* Empêche l'affichage des templates Vue.js non compilés */
+[v-cloak] {
+    display: none;
+}
+
+body.alt {
+    --body-bg: var(--crm-primary);
+    --body-cl: #D9D9FF; 
+}
+
+@media print {
+    body, body.alt {
+        --body-bg: #F5F5F5;
+        --body-cl: #111111;
+    }
+    nav {
+        display: none;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 1.6rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: var(--body-bg);
+    color: var(--body-cl);
+}
+
+a {
+    color: var(--crm-primary);
+    text-decoration: none;
+    
+}
+
+a:hover {
+    color: var(--crm-rf);
+    text-decoration: wavy underline;
+}
+
+#app > * {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 0 2px var(--crm-primary);
+}
+
+#app > header {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    
+    p {
+        margin: .5rem 0 1rem 0;
+        font-size: 2.4rem;
+        font-weight: bold;
+        margin-left: 1rem;
+        text-transform: uppercase;
+    }
+    
+    img {
+        width: 120px;
+    }
+}
+
+main, #app > footer {
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+#app > footer {
+    text-align: center;
+    font-size: 1.4rem;
+
+    p {
+        margin: 0;
+    }
+}
+
+.menu-types {
+    list-style: none;
+    padding: 0;
+    display:flex; 
+
+    a {
+        display: block;
+        padding: .5rem 1rem;
+    }
+}
+
+
+.btn {
+    display: inline-block;
+    padding: .5rem 1rem;
+    background: var(--body-bg);
+    color: var(--crm-primary);
+    text-decoration: none;
+    border: 1px solid var(--crm-secondary);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-speed) ease;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background: var(--crm-secondary);
+    color: var(--body-cl);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn.alt {
+    background: var(--crm-secondary);
+    color: white;
+    border-color: var(--crm-primary);
+}
+
+.btn.alt:hover {
+    background: var(--crm-primary);
+    color: var(--crm-services);
+    text-decoration: none;
+}
+
+.exo-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.exo-card {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    align-items: stretch;
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: .5rem;
+    box-shadow: 0 0 2px var(--crm-primary);
+
+    h2 {
+        width: 100%;
+        margin: 0;
+        padding: .5rem;
+    }
+
+    p {
+        margin: 0;
+        padding: .5rem;
+    }
+}
+
+.exo-card:hover {
+    background-color: var(--crm-hv-light);
+}
+
+.exo-meta {
+    width: 12rem;
+    min-width: 12rem;
+    max-width: 12rem;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    box-shadow: 1px 0 0 var(--crm-primary);
+    padding: .3rem;
+    background-color: var(--crm-primary);
+    border-bottom-right-radius: 2rem;
+    
+    p {
+        font-size: 1.4rem;
+        margin: 0 !important;
+        padding: 0 .3rem 0 0 !important;
+    }
+}
+
+
+/* NIVEAUX couleurs progressives */
+.level { 
+    font-size: 2rem;
+    font-family: monospace;
+    cursor: help;
+    color: var(--body-bg); 
+}  /* vert */
+.level[data-level="1"] { color: #2ecc71; }  /* vert */
+.level[data-level="2"] { color: #7fbf3f; }
+.level[data-level="3"] { color: #f1c40f; }  /* jaune */
+.level[data-level="4"] { color: #e67e22; }
+.level[data-level="5"] { color: #e74c3c; }  /* rouge */
+
+
+/* Grilles de jeu */
+
+.grid-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 2rem;
+}
+
+.grid-section {
+    flex: 1 1 300px;
+}
+.logic-exercise {
+    margin: 2rem 0;
+}
+
+.logic-grid {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    user-select: none; /* Empêche la sélection de texte lors des clics rapides */
+
+    th,td {
+        padding: .5rem;
+        border: 1px solid var(--crm-primary);
+        min-width: 35px;
+        height: 35px;
+    }
+    th {
+        background: var(--crm-secondary);
+        color: var(--body-cl);
+        font-size: 1.2rem;
+    }
+
+    td {
+        background: var(--body-bg);
+        color: var(--body-cl);
+        text-align: center;
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+}
+
+.logic-grid td:hover {
+    background-color: var(--crm-hv-light);
+}
+
+.logic-grid td.cell-ok {
+    background: var(--success-color);
+    color: white;
+}
+
+.logic-grid td.cell-ko {
+    background: var(--error-color);
+    color: white;
+}
+
+/* Tableau lineaire */
+/* Style des Selects */
+.form-select {
+    font-size: 2rem;
+    background-color: #ffffff;
+    color: var(--crm-primary);
+    border: 1px solid var(--crm-ofp);
+    transition: all var(--transition-speed) ease;
+    cursor: pointer;
+    padding: .5rem 1rem;
+    width: 100%;
+    border-radius: var(--border-radius);
+}
+
+/* Changement de couleur quand une option est choisie */
+.form-select[value=""] {
+    border-color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.form-select:not([value=""]) {
+    border-color: var(--crm-mecenat);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--crm-secondary);
+    box-shadow: 0 0 8px rgba(237, 104, 64, 0.3);
+}
+
+/* Style des options (limité par le navigateur mais aide sur certains) */
+.form-select option {
+    background-color: white;
+    color: var(--body-cl);
+}
+
+/* Hover sur la ligne */
+tr:hover td {
+    background-color: rgba(0,0,0, 0.1);
+}
+
+.is-selected {
+    background-color: var(--crm-primary) !important; /* Bleu foncé */
+    border-color: var(--crm-secondary) !important;
+    color: var(--crm-secondary) !important;
+    font-weight: bold;
+}

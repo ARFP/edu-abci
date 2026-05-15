@@ -1,0 +1,62 @@
+{
+  "categories": [
+    {
+      "nom": "Ordre",
+      "items": ["1er", "2ème", "3ème", "4ème"]
+    },
+    {
+      "nom": "Serveurs",
+      "items": ["Alpha", "Beta", "Gamma", "Delta"]
+    },
+    {
+      "nom": "Points d'entrée",
+      "items": ["Phishing", "SQL Injection", "Port 22 ouvert", "Bruteforce"]
+    },
+    {
+      "nom": "Malwares",
+      "items": ["Ransomware", "Spyware", "Rootkit", "Trojan"]
+    }
+  ],
+  "solution": [
+    [0, 2, 0, 3],
+    [1, 3, 1, 0],
+    [2, 1, 2, 1],
+    [3, 0, 3, 2]
+  ],
+  "indices": [
+    "Le serveur Beta a été compromis en 3ème position, immédiatement après celui victime d'une SQL Injection.",
+    "Le malware Rootkit n'a pas été trouvé sur le serveur Gamma, qui a été le tout premier à subir l'attaque.",
+    "L'attaque par Phishing s'est déroulée avant celle par Bruteforce.",
+    "Le Ransomware a été détecté sur le serveur Delta.",
+    "Le serveur Alpha a été le dernier attaqué (4ème).",
+    "Le malware Spyware est lié à l'ouverture du Port 22.",
+    "L'attaque par injection SQL n'a pas touché le serveur Alpha."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Ancrage temporel",
+      "explication": "L'indice 2 fixe Gamma en 1ère position. L'indice 5 fixe Alpha en 4ème position."
+    },
+    {
+      "etape": 2,
+      "titre": "La séquence Beta",
+      "explication": "L'indice 1 nous dit que Beta est 3ème et qu'il suit immédiatement l'injection SQL. Donc l'injection SQL a eu lieu en 2ème position."
+    },
+    {
+      "etape": 3,
+      "titre": "Identification du 2ème serveur",
+      "explication": "Par élimination des positions et des serveurs, le 2ème serveur est Delta. L'indice 4 nous apprend que Delta est infecté par un Ransomware. Donc 2ème est Delta/SQL/Ransomware."
+    },
+    {
+      "etape": 4,
+      "titre": "Attribution des points d'entrée",
+      "explication": "Il reste Phishing et Bruteforce pour les positions 1 et 4. L'indice 3 (Phishing avant Bruteforce) place le Phishing en 1er (Gamma) et le Bruteforce en 4ème (Alpha)."
+    },
+    {
+      "etape": 5,
+      "titre": "Malwares finaux",
+      "explication": "L'indice 6 lie le Port 22 au Spyware (Beta, 3ème). Il reste Trojan et Rootkit. L'indice 2 exclut le Rootkit de Gamma. Le Rootkit est donc sur Alpha (4ème), et le Trojan sur Gamma (1er)."
+    }
+  ]
+}

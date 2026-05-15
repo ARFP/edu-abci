@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "nom": "Développeurs",
+      "items": ["Aya", "Boris", "Chloé"]
+    },
+    {
+      "nom": "Rôles",
+      "items": ["Lead Dev", "SRE", "Sécurité"]
+    },
+    {
+      "nom": "Micro-services",
+      "items": ["Authentification", "Paiement", "Stockage"]
+    },
+    {
+      "nom": "Bandeaux",
+      "items": ["Bleu", "Violet", "Orange"]
+    }
+  ],
+  "solution": [
+    [0, 0, 2, 2],
+    [1, 1, 0, 0],
+    [2, 2, 1, 1]
+  ],
+  "indices": [
+    "La personne en charge du service Paiement a un bandeau Violet.",
+    "Boris est le SRE, mais il n'a pas de bandeau Orange.",
+    "Le Lead Dev s'occupe du service Stockage.",
+    "Chloé n'a pas de bandeau Bleu.",
+    "La personne à la Sécurité n'est pas Aya."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "Les rôles fixes",
+      "explication": "L'indice 3 lie directement le Lead Dev au service Stockage. L'indice 2 nous confirme que Boris occupe le poste de SRE."
+    },
+    {
+      "etape": 2,
+      "titre": "Attribution par élimination",
+      "explication": "D'après l'indice 5, Aya n'est pas à la Sécurité. Comme Boris est déjà SRE, Aya est obligatoirement Lead Dev. Par extension, Chloé est affectée à la Sécurité."
+    },
+    {
+      "etape": 3,
+      "titre": "Déduction des services",
+      "explication": "Puisque Aya est Lead Dev, elle gère le Stockage (Indice 3). L'indice 1 lie le Paiement au bandeau Violet. Chloé (Sécurité) ne peut être au Paiement que si elle n'a pas de bandeau Bleu (Indice 4), ce qui est cohérent."
+    },
+    {
+      "etape": 4,
+      "titre": "Finalisation du monitoring",
+      "explication": "Chloé est donc au service Paiement avec le bandeau Violet. Boris s'occupe de l'Authentification. Comme il n'est pas Orange (Indice 2), il est Bleu. Aya hérite du bandeau Orange par élimination."
+    }
+  ]
+}

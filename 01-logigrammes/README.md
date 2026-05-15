@@ -51,4 +51,18 @@ Le dossier contient une série de défis à difficulté croissante :
 
 --- 
 
+## Liste des exercices 
+
+- [Minecraft](./00-minecraft)
+- [1er Commit](./01-premier-commit)
+- [League of Legends](./02-lol)
+- [Déploiement](./03-deploiement-du-matin)
+- [Audit Web](./04-audit-web)
+- [Salon Auto](./05-salon-auto)
+- [Reunion Sprint](./06-reunion-sprint)
+- [Incident Cybersecurite](./10-cybersecurite)
+- [Kubernetes](./20-kubernetes)
+- [Zebra Puzzle](./30-zebra-puzzle)
+- [Mytere Bug](./mystere-bug)
+
 **Bonne chance, et que la logique soit avec vous !** 

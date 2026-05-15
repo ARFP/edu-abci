@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "nom": "Développeurs",
+      "items": ["Hugo", "Inès", "Jade"]
+    },
+    {
+      "nom": "Langages",
+      "items": ["Java", "PHP", "Swift"]
+    }
+  ],
+  "solution": [
+    [0, 1],
+    [1, 0],
+    [2, 2]
+  ],
+  "indices": [
+    "Jade travaille sur une application iPhone (elle utilise donc Swift).",
+    "Hugo n'utilise pas le Java.",
+    "Inès ne connaît pas le PHP."
+  ],
+  "correction": [
+    {
+      "etape": 1,
+      "titre": "L'évidence pour Jade",
+      "explication": "L'indice 1 établit un lien direct entre Jade et le développement iPhone, ce qui nous permet de valider immédiatement qu'elle utilise Swift."
+    },
+    {
+      "etape": 2,
+      "titre": "Déduction pour Inès",
+      "explication": "L'indice 3 précise qu'Inès ne fait pas de PHP. Puisque Swift est déjà pris par Jade, le seul langage restant pour Inès est le Java."
+    },
+    {
+      "etape": 3,
+      "titre": "Attribution par élimination",
+      "explication": "Il ne reste plus que le PHP pour Hugo. Cette déduction est confirmée par l'indice 2, car Hugo n'utilise effectivement pas le Java."
+    }
+  ]
+}

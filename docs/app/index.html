@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raisonnement Logique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="module" src="assets/main.js" defer></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <img src="assets/crm-logo.png" alt="Logo du CRM68">
+            <div>
+                <p>Logique & Algorithmes</p>
+                <p>{{ currentType }}s</p>
+            </div>
+        </header>
+        <nav>
+            <ul class="menu-types">
+                <li v-for="type in types" :key="type">
+                    <a href="#" :data-cat="type" @click="filterCategories">{{ type }}</a>
+                </li>
+            </ul>
+        </nav>
+        <main>
+            <section v-if="current === null">
+                <div v-for="exercice in exos" :key="exercice.slug">
+                    <exo-card :exo="exercice" @exo-select="exoSelect"></exo-card>
+                </div>
+            </section>
+            <section v-else>
+                <div class="exo-top">
+                    <a class="btn" href="#" @click="current = null">← Retour à la liste</a>
+                    <div class="timer">⏱ Temps écoulé : <strong>{{ formattedTime }}</strong></div>
+                </div> 
+                <exo-card :exo="current" @exo-select="exoSelect" :selected="true"></exo-card>
+                <exo-game :exo="current"></exo-game>
+            </section>
+        </main>
+        <footer>
+            <p><a href="#" @click="resetData">&copy;</a> <a href="https://github.com/mdevoldere">Mickaël DEVOLDÈRE</a> pour <a href="https://crm68.fr">Centre de Réadaptation de Mulhouse.</a> Tous droits réservés.</p>
+        </footer>
+
+    </div>
+
+        <template id="exo-card">
+            <article class="exo-card" v-if="exo !== null">
+                <div class="exo-meta">
+                    <p class="level"><a :href="'../logigrammes/' + exo.slug + '.html'">📁</a> {{ exo.categorie }}</p>
+                    <p class="level">🕒 ~{{ exo.temps_estime }}</p>
+                    <p :data-level="exo.difficulte" class="level stars" :title="levels[exo.difficulte - 1]">🧠 {{ displayLevel(exo.difficulte) }}</p>
+                </div>
+                <div>
+                    <h2 v-if="selected">{{ exo.titre }}</h2>
+                    <h2 v-else><a href="#" :data-slug="exo.slug" @click="exoSelect">{{ exo.titre }}</a></h2>
+                    <p>{{ exo.resume }}</p>
+                </div>
+            </article>
+        </template>    
+
+        <template id="exo-game">
+            <div class="logic-exercise" v-if="engine && exo.data && exo.data.categories && exo.data.categories.length >= 2">
+                <!-- section des catégories -->
+                <section class="categories-section">
+                <h3>📂 Catégories</h3>
+                <ol>
+                    <li 
+                    v-for="(cat, index) in exo.data.categories" 
+                    :key="index">
+                        {{ cat.nom }} : <span v-for="item in cat.items" :key="item"> {{ item }}. </span>
+                    </li>
+                </ol>
+
+                <!-- Section des Indices -->
+                <section class="indices-section">
+                <h3>📜 Indices</h3>
+                <ol>
+                    <li 
+                    v-for="(indice, index) in exo.data.indices" 
+                    :key="index"
+                    @click="toggleIndice(index)"
+                    :class="{ 'text-muted strikethrough': indicesBarres.includes(index) }"
+                    >
+                    {{ indice }}
+                    </li>
+                </ol>
+                </section>
+
+                <hr />
+
+                <div class="grid-wrapper"> 
+                    <exo-helper :engine="engine" @use-joker="useJoker"></exo-helper>  
+                    <button @click="modeAffichage = 'grids'" class="btn" :class="{ active: modeAffichage === 'grids' }"><i class="fa fa-"></i>Vue Relationnelle (grilles)</button>
+                    <button @click="modeAffichage = 'linear'" class="btn" :class="{ active: modeAffichage === 'linear' }">Vue Linéaire (Zebra)</button>
+                </div>
+                <hr />
+
+            <!-- Conteneur des Grilles -->
+            <div v-if="modeAffichage === 'grids'" class="grid-wrapper">
+                <section v-for="(grille, gIdx) in pairesDeGrilles" :key="gIdx" class="grid-section">
+                    <h3>{{ grille.nomLigne }} vs {{ grille.nomCol }}</h3>
+                    
+                    <table class="logic-grid">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th v-for="col in grille.itemsCol" :key="col">{{ col }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in grille.itemsLigne" :key="row">
+                                <td class="row-header"><strong>{{ row }}</strong></td>
+                                <td 
+                                    v-for="col in grille.itemsCol" 
+                                    :key="col"
+                                    @click="cycleCellState(row, col)"
+                                    :class="getCellClass(row, col)"
+                                >
+                                    {{ getCellSymbol(row, col) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <!-- VUE 2 : La grille linéaire -->
+            <div v-if="modeAffichage === 'linear'" class="grid-wrapper">
+                <table class="logic-grid">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Attributs</th>
+                            <!-- On affiche Pos 1, Pos 2, etc. -->
+                            <th v-for="pos in exo.data.categories[0].items" :key="pos">
+                                {{ pos }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="cat in categoriesSansPositions" :key="cat.nom">
+                            <td class="bg-light"><strong>{{ cat.nom }}</strong></td>
+                            <td v-for="pos in exo.data.categories[0].items" :key="pos">
+                                <select 
+                                    :value="selectionLineaire[pos + '-' + cat.nom]"
+                                    @change="updateFromLinear(pos, cat.nom, $event.target.value)"
+                                    class="form-select form-select-sm" 
+                                    :class="{ 'is-selected': selectionLineaire[pos + '-' + cat.nom] !== '' }"
+                                >
+                                    <option value="">?</option>
+                                    <option v-for="item in cat.items" :key="item" :value="item">
+                                        {{ item }}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+                <!-- Bouton de validation -->
+                <div class="actions" style="margin-top: 1rem;">
+                    <button @click="validerExo" class="btn btn-check" :disabled="isFinished">
+                        Vérifier mes réponses
+                    </button> &nbsp; 
+                    <button @click="undo" class="btn btn-outline-secondary" :disabled="isFinished">
+                        ↩ Annuler 
+                    </button>
+                </div>
+
+                <!-- Affichage des statistiques de fin -->
+                <div v-if="stats" class="alert alert-success mt-4">
+                    <h4>Bravo !</h4>
+                    <ul>
+                        <li>Exercice : {{ exo.titre }}</li>
+                        <li>Difficulté : {{ exo.difficulte }}</li>
+                        <li>Catégories : {{ exo.data.categories.length }}</li>
+                        <li>Indices : {{ exo.data.indices.length }}</li>
+                        <li>Date Session : {{ stats.dateSession }}</li>
+                        <li>Temps : {{ stats.dureeFormatee }}</li>
+                        <li>Actions : {{ stats.nbActions }}</li>
+                        <li>Indices demandés : {{ stats.nbAidesConsultees }}</li>
+                        <li>Jokers utilisés : {{ stats.nbJokers }}</li>
+                        <li>Score : {{ stats.score }}</li>
+                        <li>ScoreAide : {{ stats.scoreAide }}</li>
+                        <li>ScorePur : {{ stats.scorePur }}</li>
+                    </ul>
+                    <p>Temps : {{ stats.dureeFormatee }} | Actions : {{ stats.nbActions }} | Score : {{ stats.score }}</p>
+                </div>
+            </div>
+        </template>
+
+        <template id="exo-helper">
+            <section class="grid-wrapper">
+                <button @click="fournirAide" :disabled="engine.currentStepIndex >= engine.logigramme.correction.length"
+                    class="btn" title="Obtenir une aide pas-à-pas pour avancer dans la résolution de l'exercice">
+                    <i class="fa fa-commenting"></i> Aide ({{ engine.logigramme.correction.length - engine.currentStepIndex }} restants)
+                </button>
+
+                <button @click="utiliserJoker" class="btn" title="Utiliser un joker pour révéler une information clé de la solution. À utiliser avec parcimonie !">
+                    <i class="fa fa-magic"></i> Joker
+                </button>
+
+                <div class="mt-3">
+                    <ol>
+                        <li v-for="aide in indicesAidesAffiches" :key="aide.etape" class="alert alert-info">
+                            <strong>Conseil #{{ aide.etape }} : {{ aide.titre }}</strong> 
+                            {{ aide.explication }}
+                        </li>
+                    </ol>
+                </div>
+            </section>
+        </template>
+</body>
+</html>
