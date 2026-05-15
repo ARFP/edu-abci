@@ -22,7 +22,7 @@ export const ExoCard = {
   methods: {
     displayLevel(level) {
         const points = "●".repeat(level) + "○".repeat(5 - level);
-        const label = exosLevels[level - 1];
+        //const label = exosLevels[level - 1];
         return `${points}`;
     },
     exoSelect(e) {

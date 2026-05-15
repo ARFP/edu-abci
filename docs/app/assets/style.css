@@ -30,7 +30,7 @@ body.alt {
         --body-bg: #F5F5F5;
         --body-cl: #111111;
     }
-    body > header nav {
+    nav {
         display: none;
     }
 }
@@ -55,6 +55,8 @@ body {
 
 a {
     color: var(--crm-primary);
+    text-decoration: none;
+    
 }
 
 a:hover {
@@ -62,37 +64,37 @@ a:hover {
     text-decoration: wavy underline;
 }
 
-header, nav, main, footer {
+#app > * {
     width: 1200px;
-    max-width: 95%;
+    max-width: 100%;
     margin: 0 auto;
     box-shadow: 0 0 2px var(--crm-primary);
 }
 
-header {
+#app > header {
     display: flex;
     align-items: start;
     justify-content: start;
+    
+    p {
+        margin: .5rem 0 1rem 0;
+        font-size: 2.4rem;
+        font-weight: bold;
+        margin-left: 1rem;
+        text-transform: uppercase;
+    }
+    
+    img {
+        width: 120px;
+    }
 }
 
-header img {
-    width: 120px;
-}
-
-header p {
-    margin: .5rem 0 1rem 0;
-    font-size: 2.4rem;
-    font-weight: bold;
-    margin-left: 1rem;
-    text-transform: uppercase;
-}
-
-main, footer {
+main, #app > footer {
     margin-top: 1rem;
     padding: 1rem;
 }
 
-footer {
+#app > footer {
     text-align: center;
     font-size: 1.4rem;
 
@@ -101,16 +103,17 @@ footer {
     }
 }
 
-.menu-types ul {
+.menu-types {
     list-style: none;
     padding: 0;
-    display:flex;
+    display:flex; 
+
+    a {
+        display: block;
+        padding: .5rem 1rem;
+    }
 }
 
-.menu-types a {
-    display: block;
-    padding: .5rem 1rem;
-}
 
 .btn {
     display: inline-block;
@@ -149,29 +152,29 @@ footer {
 }
 
 .exo-card {
-    box-shadow: 0 0 2px var(--crm-primary);
-    margin: 2rem 0;
-    padding: .5rem;
     display: flex;
     flex-flow: row nowrap;
     justify-content: start;
     align-items: stretch;
     gap: 1rem;
+    margin: 2rem 0;
+    padding: .5rem;
+    box-shadow: 0 0 2px var(--crm-primary);
+
+    h2 {
+        width: 100%;
+        margin: 0;
+        padding: .5rem;
+    }
+
+    p {
+        margin: 0;
+        padding: .5rem;
+    }
 }
 
 .exo-card:hover {
     background-color: var(--crm-hv-light);
-}
-
-.exo-card h2 {
-    width: 100%;
-    margin: 0;
-    padding: .5rem;
-}
-
-.exo-card p {
-    margin: 0;
-    padding: .5rem;
 }
 
 .exo-meta {
@@ -185,24 +188,22 @@ footer {
     padding: .3rem;
     background-color: var(--crm-primary);
     border-bottom-right-radius: 2rem;
-}
-
-.exo-meta p {
-    font-size: 1.4rem;
-    margin: 0 !important;
-    padding: 0 .3rem 0 0 !important;
-}
-
-/* NIVEAUX */
-.level {
-  font-size: 2rem;
-  font-family: monospace;
-  cursor: help;
+    
+    p {
+        font-size: 1.4rem;
+        margin: 0 !important;
+        padding: 0 .3rem 0 0 !important;
+    }
 }
 
 
-/* couleurs progressives */
-.level { color: var(--body-bg); }  /* vert */
+/* NIVEAUX couleurs progressives */
+.level { 
+    font-size: 2rem;
+    font-family: monospace;
+    cursor: help;
+    color: var(--body-bg); 
+}  /* vert */
 .level[data-level="1"] { color: #2ecc71; }  /* vert */
 .level[data-level="2"] { color: #7fbf3f; }
 .level[data-level="3"] { color: #f1c40f; }  /* jaune */
@@ -227,32 +228,30 @@ footer {
 
 .logic-grid {
     border-collapse: collapse;
-    margin: 1rem auto;
+    margin: 1rem 0;
     user-select: none; /* Empêche la sélection de texte lors des clics rapides */
-}
 
-.logic-grid th,
-.logic-grid td {
-    padding: .5rem;
-    border: 1px solid var(--crm-primary);
-    min-width: 35px;
-    height: 35px;
-}
+    th,td {
+        padding: .5rem;
+        border: 1px solid var(--crm-primary);
+        min-width: 35px;
+        height: 35px;
+    }
+    th {
+        background: var(--crm-secondary);
+        color: var(--body-cl);
+        font-size: 1.2rem;
+    }
 
-.logic-grid th {
-    background: var(--crm-secondary);
-    color: var(--body-cl);
-    font-size: 1.2rem;
-}
-
-.logic-grid td {
-    background: var(--body-bg);
-    color: var(--body-cl);
-    text-align: center;
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-    font-weight: bold;
-    font-size: 1.8rem;
+    td {
+        background: var(--body-bg);
+        color: var(--body-cl);
+        text-align: center;
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
 }
 
 .logic-grid td:hover {
@@ -284,6 +283,11 @@ footer {
 }
 
 /* Changement de couleur quand une option est choisie */
+.form-select[value=""] {
+    border-color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
 .form-select:not([value=""]) {
     border-color: var(--crm-mecenat);
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);

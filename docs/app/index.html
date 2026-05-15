@@ -17,8 +17,8 @@
                 <p>{{ currentType }}s</p>
             </div>
         </header>
-        <nav class="menu-types">
-            <ul>
+        <nav>
+            <ul class="menu-types">
                 <li v-for="type in types" :key="type">
                     <a href="#" :data-cat="type" @click="filterCategories">{{ type }}</a>
                 </li>
@@ -160,12 +160,12 @@
             </div>
 
                 <!-- Bouton de validation -->
-                <div class="actions mt-4 d-flex gap-2">
+                <div class="actions" style="margin-top: 1rem;">
                     <button @click="validerExo" class="btn btn-check" :disabled="isFinished">
                         Vérifier mes réponses
-                    </button>
+                    </button> &nbsp; 
                     <button @click="undo" class="btn btn-outline-secondary" :disabled="isFinished">
-                        ↩ Annuler
+                        ↩ Annuler 
                     </button>
                 </div>
 
