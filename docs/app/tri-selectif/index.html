@@ -78,6 +78,9 @@
 
             <!-- Focus Area: Robot -->
             <div class="game-focus">
+                <div>
+                    <p>LE ROBOT TIENT : <strong>{{ activeItem ? activeItem.name : 'rien' }}</strong></p>
+                </div>
                 <div class="robot-viewport kinetic-panel">
                     <img alt="EcoBot Robot character" class="robot-img" src="./tri-selectif.jpg"/>
                     <div class="active-target" v-if="activeItem">

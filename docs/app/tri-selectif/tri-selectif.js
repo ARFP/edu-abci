@@ -1,5 +1,31 @@
 import { createApp } from '../assets/vue.esm-browser.js';
 
+var initialQueue = [
+    { name: 'Bouteille plastique', type: 'jaune', icon: 'local_drink' },
+    { name: 'Journal', type: 'jaune', icon: 'newspaper' },
+    { name: 'Reste de repas', type: 'gris', icon: 'restaurant' },
+    { name: 'Carton de pizza', type: 'jaune', icon: 'inventory_2' }
+];
+
+initialQueue.sort(() => Math.random() - 0.5);
+
+var initialPossibleItems = [
+    { name: 'Canette soda', type: 'jaune', icon: 'view_in_ar' },
+    { name: 'Boite conserve', type: 'jaune', icon: 'kitchen' },
+    { name: 'Épluchures', type: 'gris', icon: 'eco' },
+    { name: 'Yaourt vide', type: 'gris', icon: 'nest_eco_leaf' },
+    { name: 'Magazine', type: 'jaune', icon: 'menu_book' },
+    { name: 'Vieux pain', type: 'gris', icon: 'bakery_dining' },
+    { name: 'Brique de lait', type: 'jaune', icon: 'egg_alt' },
+    { name: 'Enveloppe', type: 'jaune', icon: 'mail' },
+    { name: 'Boîte d\'œufs', type: 'jaune', icon: 'egg' },
+    { name: 'Masque jetable', type: 'gris', icon: 'masks' },
+    { name: 'Sachet de thé', type: 'gris', icon: 'emoji_food_beverage' },
+    { name: 'Poussière', type: 'gris', icon: 'cleaning_services' },
+    { name: 'Flacon shampoing', type: 'jaune', icon: 'soap' },
+    { name: 'Couvercle métal', type: 'jaune', icon: 'settings' }
+];
+
 createApp({
     data() {
         return {
@@ -7,22 +33,9 @@ createApp({
             errors: 0,
             history: [],
             // La file d'attente visible et à venir
-            queue: [
-                { name: 'Bouteille plastique', type: 'jaune', icon: 'local_drink' },
-                { name: 'Journal', type: 'jaune', icon: 'newspaper' },
-                { name: 'Reste de repas', type: 'gris', icon: 'restaurant' },
-                { name: 'Carton de pizza', type: 'jaune', icon: 'inventory_2' }
-            ],
+            queue: initialQueue,
             // Bibliothèque pour générer de nouveaux déchets aléatoirement
-            possibleItems: [
-                { name: 'Canette soda', type: 'jaune', icon: 'view_in_ar' },
-                { name: 'Boite conserve', type: 'jaune', icon: 'kitchen' },
-                { name: 'Épluchures', type: 'gris', icon: 'eco' },
-                { name: 'Yaourt vide', type: 'gris', icon: 'nest_eco_leaf' },
-                { name: 'Magazine', type: 'jaune', icon: 'menu_book' },
-                { name: 'Vieux pain', type: 'gris', icon: 'bakery_dining' },
-                { name: 'Brique de lait', type: 'jaune', icon: 'egg_alt' }
-            ]
+            possibleItems: initialPossibleItems
         }
     },
     computed: {
@@ -55,7 +68,7 @@ createApp({
             });
 
             // On ne garde que les 5 derniers tris
-            if (this.history.length > 5) {
+            if (this.history.length > 7) {
                 this.history.pop();
             }
 
@@ -76,12 +89,8 @@ createApp({
             this.score = 0;
             this.errors = 0;
             this.history = [];
-            this.queue = [
-                { name: 'Bouteille plastique', type: 'jaune', icon: 'local_drink' },
-                { name: 'Journal', type: 'jaune', icon: 'newspaper' },
-                { name: 'Reste de repas', type: 'gris', icon: 'restaurant' },
-                { name: 'Carton de pizza', type: 'jaune', icon: 'inventory_2' }
-            ];
+            initialQueue.sort(() => Math.random() - 0.5);
+            this.queue = initialQueue;
         },
         quit() {
             if (confirm("Voulez-vous vraiment quitter l'entraînement ?")) {
