@@ -20,14 +20,11 @@ Vous devez scénariser l'interface de contrôle de trois cuves de stockage de la
 #### Règles de gestion
 
 * **Seuils de température** :
-* **Entre 0°C et 3.9°C** : Température critique (trop froid) (Couleur : **bleu**).
+* **Entre 0°C et 1.9°C** : Température critique (trop froid) (Couleur : **bleu**).
 * **Entre 2°C et 4°C** : Température idéale (Couleur : **Vert**).
 * **Entre 4.1°C et 7°C** : Température suspecte (Couleur : **Orange**).
 * **Au-dessus de 7°C** : Température critique (trop chaud) (Couleur : **Rouge**).
 
-
 * **Automatisme** : 
     - Si une cuve passe en **Rouge**, le message d'alerte doit afficher : *"Urgence : Cuve [Nom] en surchauffe !"*.* 
     - Si une cuve passe en **bleu**, le message d'alerte doit afficher : *"Urgence : Cuve [Nom] trop froid !"*.
-
----

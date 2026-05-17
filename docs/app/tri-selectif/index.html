@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EcoBot - Tri Sélectif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet"/>
+    <link rel="stylesheet" href="tri-selectif.css">
+    <script src="./tri-selectif.js" type="module" defer></script>
+</head>
+<body class="app-body" id="app">
+    <!-- Header: Tableau de Bord -->
+    <header class="app-header kinetic-panel">
+        <div class="header-content">
+            <span class="header-title">Tableau de Bord</span>
+        </div>
+        <div class="header-stats">
+            <div class="stat-item">
+                <span class="stat-label">Score</span>
+                <span class="stat-value">{{ score }}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Erreurs</span>
+                <span class="stat-value error">{{ errors }}</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <!-- File d'Attente -->
+        <div class="queue-container kinetic-panel">
+            <div class="queue-content">
+                <span class="queue-label">File d'Attente</span>
+                <div class="queue-items">
+                    <div v-for="(item, index) in queue.slice(1)" :key="index" class="queue-item">
+                        <span class="material-symbols-outlined">{{ item.icon }}</span>
+                        <span class="item-name">{{ item.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Central Zone -->
+        <div class="game-layout">
+            <!-- Sorting Bins Info -->
+            <aside class="bins-sidebar">
+                <div class="bin-info-card kinetic-panel jaune">
+                    <h3 class="bin-type-title">Bac Jaune</h3>
+                    <p class="bin-category">Recyclables :</p>
+                    <ul class="bin-list">
+                        <li>Plastique</li>
+                        <li>Carton</li>
+                        <li>Papier</li>
+                        <li>Métal</li>
+                    </ul>
+                </div>
+                <div class="bin-info-card kinetic-panel gris">
+                    <h3 class="bin-type-title">Bac Gris</h3>
+                    <p class="bin-category">Non-recyclables :</p>
+                    <ul class="bin-list">
+                        <li>Déchets organiques</li>
+                        <li>Restes de repas</li>
+                    </ul>
+                </div>
+
+                <!-- Historique des Tris -->
+                <div class="bin-info-card kinetic-panel history" v-if="history.length > 0">
+                    <h3 class="bin-type-title">Derniers tris</h3>
+                    <ul class="bin-list">
+                        <li v-for="(entry, idx) in history" :key="idx" :class="entry.isCorrect ? 'text-ok' : 'text-error'">
+                            <span class="material-symbols-outlined">{{ entry.isCorrect ? 'check_circle' : 'cancel' }}</span>
+                            {{ entry.name }}
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Focus Area: Robot -->
+            <div class="game-focus">
+                <div class="robot-viewport kinetic-panel">
+                    <img alt="EcoBot Robot character" class="robot-img" src="./tri-selectif.jpg"/>
+                    <div class="active-target" v-if="activeItem">
+                        <span class="material-symbols-outlined">{{ activeItem.icon }}</span>
+                        <span class="target-label">{{ activeItem.name }}</span>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+                    <button class="btn-action jaune" @click="sort('jaune')">
+                        <span class="material-symbols-outlined">recycling</span>
+                        <div class="btn-label">
+                            <span class="btn-main">Bac Jaune</span>
+                            <span class="btn-sub">Recyclables</span>
+                        </div>
+                    </button>
+                    <button class="btn-action gris" @click="sort('gris')">
+                        <span class="material-symbols-outlined">delete</span>
+                        <div class="btn-label">
+                            <span class="btn-main">Bac Gris</span>
+                            <span class="btn-sub">Ordures Ménagères</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav kinetic-panel">
+        <div class="nav-links">
+            <button class="nav-item" @click="restart">
+                <span class="material-symbols-outlined">replay</span>
+                <span class="nav-text">Recommencer</span>
+            </button>
+            <button class="nav-item">
+                <span class="material-symbols-outlined">help_outline</span>
+                <span class="nav-text">Aide</span>
+            </button>
+            <button class="nav-item btn-exit" @click="quit">
+                <span class="material-symbols-outlined">exit_to_app</span>
+                <span class="nav-text">Quitter</span>
+            </button>
+        </div>
+    </nav>
+</body>
+</html>

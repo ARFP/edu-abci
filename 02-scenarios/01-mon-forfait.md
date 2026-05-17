@@ -8,7 +8,7 @@ Rédiger **une spécification fonctionnelle / un scénario logique** sous forme 
 
 ## Exercice 1 : Mon forfait Mobile
 
-Vous recevez la maquette d'une page de sélection d'abonnement mobile et devez rédiger le scénario nominal.
+Vous recevez la maquette d'une page de sélection d'abonnement mobile Connect+ et devez rédiger le scénario nominal.
 
 ### Structure de la maquette : 
 
@@ -57,3 +57,60 @@ Rédigez les scénarios :
 2. L'utilisateur souhaite un nouveau numéro.
 
 > Pensez aux éventuels cas d'erreurs !
+
+# Corrections
+
+```mermaid
+graph TD
+    A[Début : Utilisateur sur la page] --> B{Action Utilisateur}
+
+    %% Sélection du Forfait
+    B -->|Sélectionne un Forfait| C{Quel forfait ?}
+    C -->|5 Go| D[Prix = 5€]
+    C -->|50 Go| E[Prix = 15€]
+    C -->|100 Go| F[Prix = 20€]
+
+    %% Gestion de l'option 5G
+    D --> G[Option 5G : Grisée / Désactivée]
+    E --> H[Option 5G : Disponible]
+    F --> H
+
+    G --> J[Calcul du Total]
+    H --> K{Option 5G cochée ?}
+
+    K -->|Oui| L[Ajouter +3€ au Prix]
+    K -->|Non| J
+
+    L --> J
+
+    %% Finalisation
+    J --> M[Affichage dynamique du Prix X€ / mois]
+    M --> N{Clic sur Souscrire ?}
+    N -->|Non| B
+    N -->|Oui| O[Fin : Validation de l'abonnement]
+```
+
+---
+
+```mermaid
+graph TD
+    A[Événement : Clic sur 'Souscrire'] --> B{Conserver son numéro actuel ?}
+
+    %% Chemin : Conservation du numéro
+    B -->|Oui| C[Afficher champs : Numéro actuel + RIO]
+    C --> D{Saisie des données}
+    D -->|Incomplètes ou Format invalide| E[Echec]
+    D -->|Valides| F[Bouton 'Valider' : Activé]
+
+    %% Chemin : Nouveau numéro
+    B -->|Non| G[Afficher liste de 5 numéros proposés]
+    G --> H{Sélection d'un numéro}
+    H -->|Numéro choisi| J[Bouton 'Valider' : Activé]
+
+    %% Finalisation de l'étape
+    F --> K{Clic sur Valider ?}
+    J --> K
+    K -->|Oui| L[Fin : Succès]
+    K -->|Non| B
+
+```
