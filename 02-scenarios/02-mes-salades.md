@@ -48,8 +48,7 @@ Rédigez les étapes logiques lorsque l'utilisateur retire tous ses articles.
 * **Action** : L'utilisateur clique sur le bouton **[ - ]** jusqu'à atteindre 0.
 * **Résultat attendu** : Décrivez l'état du bouton de validation et le message affiché à l'écran.
 
-
----
+<div style="page-break-after:always;"></div>
 
 ## Exercice 2.1 : Payer mes salades
 

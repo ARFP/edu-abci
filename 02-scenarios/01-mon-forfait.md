@@ -23,11 +23,13 @@ Vous recevez la maquette d'une page de sélection d'abonnement mobile Connect+ e
 * 50 Go = 15 € / mois
 * 100 Go = 20 € / mois
 
----
+<div style="page-break-after:always;"></div>
+
+
 
 ![mon-forfait-1](./mon-forfait.jpg)
 
----
+
 
 ### La maquette v2
 
@@ -43,7 +45,9 @@ Vous recevez une mise à jour de la maquette de la page de sélection d'abonneme
 
 ![mon-forfait-2](./mon-forfait2.jpg)
 
----
+
+
+<div style="page-break-after:always;"></div>
 
 ## Exercice 1.2 : Mon numéro
 
@@ -56,7 +60,7 @@ Rédigez les scénarios :
 1. L'utilisateur souhaite conserver son numéro actuel.
 2. L'utilisateur souhaite un nouveau numéro.
 
-> Pensez aux éventuels cas d'erreurs !
+<div style="page-break-after:always;"></div>
 
 # Corrections
 
