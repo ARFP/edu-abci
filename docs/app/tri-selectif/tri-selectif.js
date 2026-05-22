@@ -1,4 +1,4 @@
-import { createApp } from '../assets/vue.esm-browser.js';
+import { createApp } from 'https://unpkg.com/vue@3.5.34/dist/vue.esm-browser.prod.js';
 
 var initialQueue = [
     { name: 'Bouteille plastique', type: 'jaune', icon: 'local_drink' },
