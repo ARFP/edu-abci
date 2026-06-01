@@ -1,5 +1,7 @@
 ## Évaluation : Trier ses ordures 
 
+![robot](./tri-selectif-header.jpg)
+
 **Objectif :** Modéliser un processus physique avec une notion de tri sélectif.
 
 J'ai des déchets à jeter, j'envoie mon robot effectuer cette tâche.
@@ -11,6 +13,7 @@ Quelles actions et décision doit-il prendre pour jeter les ordures dans le bac 
 - La poubelle jaune est destinée à réceptionner les déchets valorisables (carton, plasique etc..).
 - La poubelle grise accepte tous les autres déchets.
 
+![robot-ui](./tri-selectif.jpg)
 
 ### Travail à réaliser
 

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecteur Markdown Vue.js</title>
+    <style>
+        :root {
+            --primary-color: #1b296a;
+            --bg-color: #ffffff;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        header {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 100%;
+            font-size: 1rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        #app {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .loading { color: #666; font-style: italic; }
+        .error { color: #e74c3c; font-weight: bold; }
+        
+        /* Style basique pour le rendu Markdown */
+        .markdown-body h1 { border-bottom: 1px solid #eee; padding-bottom: 10px; color: var(--primary-color); }
+        .markdown-body code { background: #f4f4f4; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+        .markdown-body pre { background: #f4f4f4; padding: 15px; overflow-x: auto; border-radius: 4px; }
+        .markdown-body blockquote { border-left: 4px solid #ddd; padding-left: 15px; color: #777; margin-left: 0; }
+        .markdown-body img { max-width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <header v-if="files.length > 0">
+            <select v-model="sourceUrl" @change="loadMarkdown">
+                <option v-for="file in files" :key="file" :value="file">{{ formatTitle(file) }}</option>
+            </select>
+        </header>
+        <div v-if="loading" class="loading">Chargement du document...</div>
+        <div v-else-if="error" class="error">Erreur : {{ error }}</div>
+        <article v-else v-html="htmlContent" class="markdown-body"></article>
+    </div>
+
+    <script type="module">
+        // Import de Vue et de Marked (convertisseur Markdown) depuis un CDN
+        import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+        import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
+
+        createApp({
+            data() {
+                return {
+                    htmlContent: '',
+                    loading: false,
+                    error: null,
+                    files: [],
+                    sourceUrl: ''
+                }
+            },
+            async mounted() {
+                try {
+                    const res = await fetch('readme.json');
+                    if (res.ok) {
+                        this.files = await res.json();
+                        if (this.files.length > 0) {
+                            this.sourceUrl = this.files[0];
+                            await this.loadMarkdown();
+                        }
+                    } else {
+                        this.error = "Fichier readme.json introuvable.";
+                    }
+                } catch (err) {
+                    this.error = "Erreur d'initialisation : " + err.message;
+                }
+            },
+            methods: {
+                async loadMarkdown() {
+                    if (!this.sourceUrl) return;
+                    this.loading = true;
+                    this.error = null;
+                    try {
+                        const response = await fetch(this.sourceUrl);
+                        if (!response.ok) throw new Error(`Erreur lors du chargement (${response.status})`);
+                        const rawMarkdown = await response.text();
+                        this.htmlContent = marked.parse(rawMarkdown);
+                    } catch (err) {
+                        this.error = err.message;
+                    }
+                    this.loading = false;
+                },
+                formatTitle(path) {
+                    return path.replace('../', '').replace('.md', '').replace(/\/README/g, '').replace(/-/g, ' ').replace(/\//g, ' > ');
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
