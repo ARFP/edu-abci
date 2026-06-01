@@ -7,6 +7,8 @@ Le jeu se trouve sur l'écran de sélection des personnages. Le joueur fait déf
 - Comment le système doit-il réagir selon le choix du joueur ? 
 - Quelles étapes permettent de passer du choix du pilote à la préparation de la course ?
 
+![selection](./course-auto.jpg)
+
 ### Travail à réaliser
 
 - Rédiger les scénarios

@@ -1,0 +1,55 @@
+{
+    "Proteines": [
+        { "id": 101, "nom": "Steak Haché", "img": "🥩", "cal": 250, "co2": 1500, "prix": 4.5 },
+        { "id": 102, "nom": "Poulet Rôti", "img": "🍗", "cal": 190, "co2": 600, "prix": 3.8 },
+        { "id": 103, "nom": "Filet de Poisson", "img": "🐟", "cal": 150, "co2": 400, "prix": 5.0 },
+        { "id": 104, "nom": "Œufs (x2)", "img": "🥚", "cal": 140, "co2": 250, "prix": 1.2 },
+        { "id": 105, "nom": "Burger Maison", "img": "🍔", "cal": 550, "co2": 1800, "prix": 6.5 },
+        { "id": 106, "nom": "Pizza Part", "img": "🍕", "cal": 280, "co2": 500, "prix": 3.5 },
+        { "id": 107, "nom": "Falafels", "img": "🧆", "cal": 200, "co2": 150, "prix": 3.0 },
+        { "id": 108, "nom": "Tofu (portion)", "img": "🌱", "cal": 120, "co2": 50, "prix": 2.5 },
+        { "id": 109, "nom": "Saumon", "img": "🐠", "cal": 208, "co2": 800, "prix": 6.0 },
+        { "id": 110, "nom": "Lentilles (bol)", "img": "🫘", "cal": 230, "co2": 50, "prix": 1.5 },
+        { "id": 111, "nom": "Crevettes", "img": "🍤", "cal": 100, "co2": 300, "prix": 4.0 }
+    ],
+    "Accompagnements": [  
+        { "id": 201, "nom": "Frites", "img": "🍟", "cal": 310, "co2": 200, "prix": 2.5 },
+        { "id": 202, "nom": "Riz Blanc", "img": "🍚", "cal": 130, "co2": 120, "prix": 1.0 },
+        { "id": 203, "nom": "Pâtes", "img": "🍝", "cal": 150, "co2": 150, "prix": 1.0 },
+        { "id": 204, "nom": "Salade Verte", "img": "🥗", "cal": 15, "co2": 50, "prix": 1.5 },
+        { "id": 205, "nom": "Brocolis", "img": "🥦", "cal": 35, "co2": 40, "prix": 2.0 },
+        { "id": 206, "nom": "Carottes", "img": "🥕", "cal": 40, "co2": 30, "prix": 1.2 },
+        { "id": 207, "nom": "Patate douce", "img": "🍠", "cal": 180, "co2": 90, "prix": 1.5 },
+        { "id": 208, "nom": "Quinoa", "img": "🥣", "cal": 120, "co2": 100, "prix": 2.0 },
+        { "id": 209, "nom": "Épinards", "img": "🥬", "cal": 20, "co2": 25, "prix": 1.8 },
+        { "id": 210, "nom": "Maïs", "img": "🌽", "cal": 90, "co2": 40, "prix": 0.9 }
+    ],
+    "Desserts": [ 
+        { "id": 301, "nom": "Pomme", "img": "🍎", "cal": 50, "co2": 20, "prix": 0.8 },
+        { "id": 302, "nom": "Banane", "img": "🍌", "cal": 90, "co2": 80, "prix": 0.9 },
+        { "id": 303, "nom": "Yaourt", "img": "🍦", "cal": 100, "co2": 150, "prix": 1.1 },
+        { "id": 304, "nom": "Gâteau Chocolat", "img": "🍰", "cal": 350, "co2": 400, "prix": 4.0 },
+        { "id": 305, "nom": "Fromage", "img": "🧀", "cal": 110, "co2": 300, "prix": 1.5 },
+        { "id": 306, "nom": "Sorbet (portion)", "img": "🍨", "cal": 120, "co2": 60, "prix": 2.5 },
+        { "id": 307, "nom": "Fraises", "img": "🍓", "cal": 30, "co2": 30, "prix": 1.5 },
+        { "id": 308, "nom": "Croissant", "img": "🥐", "cal": 300, "co2": 250, "prix": 1.2 }
+    ],
+    "Boissons": [
+        { "id": 401, "nom": "Eau Minérale", "img": "💧", "cal": 0, "co2": 150, "prix": 1.0 },
+        { "id": 402, "nom": "Soda", "img": "🥤", "cal": 140, "co2": 200, "prix": 2.0 },
+        { "id": 403, "nom": "Jus d'Orange", "img": "🍊", "cal": 45, "co2": 120, "prix": 2.2 },
+        { "id": 404, "nom": "Café", "img": "☕", "cal": 2, "co2": 50, "prix": 1.5 },
+        { "id": 405, "nom": "Thé", "img": "🍵", "cal": 2, "co2": 30, "prix": 1.2 },
+        { "id": 406, "nom": "Lait", "img": "🥛", "cal": 150, "co2": 200, "prix": 1.0 },
+        { "id": 407, "nom": "Bière", "img": "🍺", "cal": 150, "co2": 300, "prix": 3.0 }
+    ],
+    "Snacks": [
+        { "id": 501, "nom": "Biscuit", "img": "🍪", "cal": 150, "co2": 120, "prix": 0.8 },
+        { "id": 502, "nom": "Noix", "img": "🥜", "cal": 170, "co2": 80, "prix": 1.2 },
+        { "id": 503, "nom": "Avocat", "img": "🥑", "cal": 240, "co2": 160, "prix": 1.8 },
+        { "id": 504, "nom": "Sandwich", "img": "🥪", "cal": 350, "co2": 400, "prix": 3.0 },
+        { "id": 505, "nom": "Muffin", "img": "🧁", "cal": 300, "co2": 200, "prix": 2.5 },
+        { "id": 506, "nom": "Soupe (bol)", "img": "🥣", "cal": 90, "co2": 60, "prix": 2.0 },
+        { "id": 507, "nom": "Pain", "img": "🍞", "cal": 80, "co2": 40, "prix": 0.6 }      
+    ]
+}

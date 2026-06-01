@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>EcoBot - Tri Sélectif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet"/>
+    <link rel="stylesheet" href="tri-selectif-demo.css">
+</head>
+<body class="app-body">
+    <!-- Header: Tableau de Bord -->
+    <header class="app-header kinetic-panel">
+        <div class="header-content">
+            <span class="header-title">Tableau de Bord</span>
+        </div>
+        <div class="header-stats">
+            <div class="stat-item">
+                <span class="stat-label">Score</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Erreurs</span>
+                <span class="stat-value error">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <!-- File d'Attente -->
+        <div class="queue-container kinetic-panel">
+            <div class="queue-content">
+                <span class="queue-label">File d'Attente</span>
+                <div class="queue-items">
+                    <div class="queue-item">
+                        <span class="material-symbols-outlined">local_drink</span>
+                        <span class="item-name">Bouteille plastique</span>
+                    </div>
+                    <div class="queue-item">
+                        <span class="material-symbols-outlined">newspaper</span>
+                        <span class="item-name">Journal</span>
+                    </div>
+                    <div class="queue-item">
+                        <span class="material-symbols-outlined">restaurant</span>
+                        <span class="item-name">Reste de repas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Central Zone -->
+        <div class="game-layout">
+            <!-- Sorting Bins Info -->
+            <aside class="bins-sidebar">
+                <div class="bin-info-card kinetic-panel jaune">
+                    <h3 class="bin-type-title">Bac Jaune</h3>
+                    <p class="bin-category">Recyclables :</p>
+                    <ul class="bin-list">
+                        <li>Plastique</li>
+                        <li>Carton</li>
+                        <li>Papier</li>
+                        <li>Métal</li>
+                    </ul>
+                </div>
+                <div class="bin-info-card kinetic-panel gris">
+                    <h3 class="bin-type-title">Bac Gris</h3>
+                    <p class="bin-category">Non-recyclables :</p>
+                    <ul class="bin-list">
+                        <li>Déchets organiques</li>
+                        <li>Restes de repas</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Focus Area: Robot -->
+            <div class="game-focus">
+                <div class="robot-viewport kinetic-panel">
+                    <img alt="EcoBot Robot character" class="robot-img" src="./tri-selectif-demo.jpg"/>
+                    <div class="active-target">
+                        <span class="material-symbols-outlined">touch_app</span>
+                        <span class="target-label">Déchet Actif</span>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+                    <button class="btn-action jaune">
+                        <span class="material-symbols-outlined">recycling</span>
+                        <div class="btn-label">
+                            <span class="btn-main">Bac Jaune</span>
+                            <span class="btn-sub">Recyclables</span>
+                        </div>
+                    </button>
+                    <button class="btn-action gris">
+                        <span class="material-symbols-outlined">delete</span>
+                        <div class="btn-label">
+                            <span class="btn-main">Bac Gris</span>
+                            <span class="btn-sub">Ordures Ménagères</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav kinetic-panel">
+        <div class="nav-links">
+            <button class="nav-item">
+                <span class="material-symbols-outlined">replay</span>
+                <span class="nav-text">Recommencer</span>
+            </button>
+            <button class="nav-item">
+                <span class="material-symbols-outlined">help_outline</span>
+                <span class="nav-text">Aide</span>
+            </button>
+            <button class="nav-item btn-exit">
+                <span class="material-symbols-outlined">exit_to_app</span>
+                <span class="nav-text">Quitter</span>
+            </button>
+        </div>
+    </nav>
+</body>
+</html>
