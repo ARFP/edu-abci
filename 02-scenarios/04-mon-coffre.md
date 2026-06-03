@@ -29,7 +29,7 @@ Vous devez scénariser la gestion d'un état complexe : une séquence de chiffre
 * **Limite** : Une fois les 4 chiffres saisis, les boutons numériques deviennent inactifs (on ne peut pas saisir 5 chiffres).
 * **Combinaison Secrète** : La porte ne s'ouvre que si le code est **`2 6 0 5`**.
 * **Validation** : Le bouton "Open Vault" ne devient cliquable que lorsque les 4 chiffres sont saisis.
-* **Corriger la siasie** : Le bouton **[ CLR ]** supprime le chiffre saisi le plus à droite. Aucun effet si pas de chiffre saisi.
+* **Corriger la saisie** : Le bouton **[ CLR ]** supprime le chiffre saisi le plus à droite. Aucun effet si pas de chiffre saisi.
 * **Réinitialisation** : Le bouton **[ DEL ]** vide l'affichage et remet les tirets, quel que soit le nombre de chiffres déjà saisis.
 
 ---
